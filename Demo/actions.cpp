@@ -8,6 +8,7 @@
 #include "actions.h"
 #include "constants.h"
 #include "SceneGraph/SceneNode.h"
+#include "Browser.h"
 
 #define ESCAPE 27
 #define SPACE 0x20
@@ -23,10 +24,10 @@ void setupActions() {
 
 
     im->addKeyAction('w', [=](int timeDelta){
-        scene->findNode(QUAD)->translate(0.0f, 0.0f, -(timeDelta * movementRate));
+        scene->findNode(QUAD)->translate(0.0f, 0.0f, (timeDelta * movementRate));
     });
     im->addKeyAction('s', [=](int timeDelta){
-        scene->findNode(QUAD)->translate(0.0f, 0.0f, timeDelta * movementRate);
+        scene->findNode(QUAD)->translate(0.0f, 0.0f, -(timeDelta * movementRate));
     });
     im->addKeyAction(ESCAPE, [=](int timeDelta){
         glutLeaveMainLoop();
@@ -35,5 +36,12 @@ void setupActions() {
         VRCamera* cam = (VRCamera*)ResourceManager::getInstance()->getCamera(SPHERE_CAM);
         if(cam)
             cam->recenter();
+    });
+
+    im->addSpecialKeyActionOnce(3, [=](){
+       Browser::getInstance()->next();
+    });
+    im->addSpecialKeyActionOnce(4, [=](){
+        Browser::getInstance()->prev();
     });
 }

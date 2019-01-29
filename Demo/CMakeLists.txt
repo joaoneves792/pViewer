@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.2.2)
 project(CGJMDemoApp CXX)
 
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_REQUIRED_FLAGS -std=c++17)
+
 include_directories(
 	includes/
 	${GLEW_INCLUDE_DIR}
@@ -21,10 +25,10 @@ set(SOURCE_FILES
 		shaders.cpp
 		shaders.h
 		constants.h
-		pipeline.cpp pipeline.h)
+		pipeline.cpp pipeline.h Browser.cpp Browser.h)
 
 add_executable(demo ${SOURCE_FILES})
-target_link_libraries(demo ${GLEW_LIBRARIES} ${GLUT_LIBRARIES} ${OPENGL_LIBRARIES} ${OPENVR_LIBRARIES} CGJEngine)
+target_link_libraries(demo stdc++fs ${GLEW_LIBRARIES} ${GLUT_LIBRARIES} ${OPENGL_LIBRARIES} ${OPENVR_LIBRARIES} CGJEngine)
 add_dependencies(demo InstallFreeGLUT CGJEngine)
 
 add_custom_command(TARGET demo POST_BUILD

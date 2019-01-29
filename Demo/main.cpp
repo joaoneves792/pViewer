@@ -15,6 +15,7 @@ extern "C" {
 #include "actions.h"
 #include "constants.h"
 #include "pipeline.h"
+#include "Browser.h"
 
 #define CAPTION "CGJDemo"
 
@@ -95,7 +96,7 @@ void reshape(int w, int h){
 
 void timer(int value){
 	std::ostringstream oss;
-	oss << CAPTION << ": " << FrameCount << " FPS";
+	oss << Browser::getInstance()->getCurrentName() << ": " << FrameCount << " FPS";
 	std::string s = oss.str();
 	glutSetWindow(WindowHandle);
 	glutSetWindowTitle(s.c_str());
@@ -120,8 +121,12 @@ void specialKeyboardUp(int key, int x, int y){
     InputManager::getInstance()->specialKeyUp(key);
 }
 
-void mouse(int x, int y) {
+void mouse(int button, int state, int x, int y) {
     InputManager::getInstance()->mouseMovement(x, y);
+    if(state == GLUT_DOWN)
+	    InputManager::getInstance()->specialKeyDown(button);
+    else
+    	InputManager::getInstance()->specialKeyUp(button);
 }
 
 /////////////////////////////////////////////////////////////////////// SETUP
@@ -132,7 +137,7 @@ void setupCallbacks(){
 	glutIdleFunc(idle);
 	glutReshapeFunc(reshape);
 	glutTimerFunc(0,timer,0);
-	glutPassiveMotionFunc(mouse);
+	glutMouseFunc(mouse);
 	glutKeyboardFunc(keyboard);
     glutKeyboardUpFunc(keyboardUp);
     glutSpecialFunc(specialKeyboard);
@@ -192,7 +197,7 @@ void setupGLUT(int argc, char* argv[]){
 	
 
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE,GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-	
+
 	glutInitWindowSize(WIN_X, WIN_Y);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	WindowHandle = glutCreateWindow(CAPTION);

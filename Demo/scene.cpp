@@ -13,6 +13,10 @@
 #include "meshes.h"
 #include "constants.h"
 #include "SceneGraph/SceneNode.h"
+#include "Browser.h"
+
+
+#include <filesystem>
 
 extern int inVR;
 
@@ -49,19 +53,19 @@ void setupScene(){
 
     SceneNode* quadNode = new SceneNode(QUAD, quad, rm->getShader(QUAD_SHADER));
     quadNode->translate(0.0f, 0.0f, -5.0f);
-    quadNode->rotate(0.0f, 1.0f, 0.0f, PI);
     root->addChild(quadNode);
 
 }
 
 void loadInput(const std::string& filename){
     static SceneNode* quad = ResourceManager::getInstance()->getScene(SCENE)->findNode(QUAD);
+    static Browser* browser = Browser::getInstance();
 
-    Texture* texture = ResourceManager::Factory::createTexture(filename);
+    browser->init(filename);
+
     quad->setPreDraw([=](){
-       glDisable(GL_CULL_FACE);
        glActiveTexture(GL_TEXTURE0);
-       texture->bind();
+       browser->getCurrentTexture()->bind();
     });
 
 }

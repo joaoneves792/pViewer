@@ -1,9 +1,0 @@
-/home/joao/workspace/pViewer/build/CMakeFiles/rebuild_cache.dir
-/home/joao/workspace/pViewer/build/CMakeFiles/InstallFreeGLUT.dir
-/home/joao/workspace/pViewer/build/CMakeFiles/edit_cache.dir
-/home/joao/workspace/pViewer/build/CGJEngine/CMakeFiles/rebuild_cache.dir
-/home/joao/workspace/pViewer/build/CGJEngine/CMakeFiles/CGJEngine.dir
-/home/joao/workspace/pViewer/build/CGJEngine/CMakeFiles/edit_cache.dir
-/home/joao/workspace/pViewer/build/Demo/CMakeFiles/rebuild_cache.dir
-/home/joao/workspace/pViewer/build/Demo/CMakeFiles/demo.dir
-/home/joao/workspace/pViewer/build/Demo/CMakeFiles/edit_cache.dir

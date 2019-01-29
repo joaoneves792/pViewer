@@ -1,7 +1,0 @@
-/usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/joao/workspace/pViewer
--- Using system GLM
--- GLM : /usr/include
--- Using OpenVR
--- Configuring done
--- Generating done
--- Build files have been written to: /home/joao/workspace/pViewer/cmake-build-debug
