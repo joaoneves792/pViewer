@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="CGJMDemoApp"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\usr\;CMake Files\..\..\..\..\usr\lib64\;CMake Files\..\..\..\..\usr\lib64\cmake\;CMake Files\..\..\..\..\usr\lib64\cmake\glm\;CMake Files\CGJEngine\;CMake Files\CGJEngine\cmake\;CMake Files\Demo\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/joao/workspace/pViewer/cmake-build-debug/Demo"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="demo">
+				<Option output="/home/joao/workspace/pViewer/bin/x64/demo" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/joao/workspace/pViewer/bin/x64"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DFREEIMG"/>
+					<Add directory="/home/joao/workspace/pViewer/Demo/includes"/>
+					<Add directory="/home/joao/workspace/pViewer/dependencies/openvr"/>
+					<Add directory="/home/joao/workspace/pViewer/CGJEngine/headers"/>
+					<Add directory="/home/joao/workspace/pViewer/CGJEngine/math/headers"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/include-fixed"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 demo"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="demo/fast">
+				<Option output="/home/joao/workspace/pViewer/bin/x64/demo" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/joao/workspace/pViewer/bin/x64"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DFREEIMG"/>
+					<Add directory="/home/joao/workspace/pViewer/Demo/includes"/>
+					<Add directory="/home/joao/workspace/pViewer/dependencies/openvr"/>
+					<Add directory="/home/joao/workspace/pViewer/CGJEngine/headers"/>
+					<Add directory="/home/joao/workspace/pViewer/CGJEngine/math/headers"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/../../../../include/c++/8.2.1/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/8.2.1/include-fixed"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 demo/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/home/joao/workspace/pViewer/cmake-build-debug/Demo/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/actions.cpp">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/actions.h">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/constants.h">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/main.cpp">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/meshes.cpp">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/meshes.h">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/pipeline.cpp">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/pipeline.h">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/scene.cpp">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/scene.h">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/shaders.cpp">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/shaders.h">
+			<Option target="demo"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/../../../../usr/lib64/cmake/glm/glmConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib64\cmake\glm\"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/../../../../usr/lib64/cmake/glm/glmConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib64\cmake\glm\"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/../../../../usr/lib64/cmake/glm/glmTargets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\usr\lib64\cmake\glm\"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/CGJEngine/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\CGJEngine\"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/CGJEngine/cmake/FindFreeImage.cmake">
+			<Option virtualFolder="CMake Files\CGJEngine\cmake\"/>
+		</Unit>
+		<Unit filename="/home/joao/workspace/pViewer/Demo/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\Demo\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
