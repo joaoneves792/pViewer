@@ -82,8 +82,8 @@
 #define SMOKE_EMITTER_RR "smokeEmmiterRR"
 
 /*Window properties*/
-#define WIN_X 1024
-#define WIN_Y 988
+#define WIN_X 1920
+#define WIN_Y 993
 #define MSAA 4
 
 /*Important Nodes*/

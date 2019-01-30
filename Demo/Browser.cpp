@@ -7,6 +7,7 @@
 #include <list>
 #include <filesystem>
 #include <string>
+#include <sstream>
 #include <iostream>
 #include <FreeImage.h>
 
@@ -29,27 +30,26 @@ void Browser::init(const std::string &filename) {
     std::filesystem::path directory = filePath.parent_path();
 
     for (const auto &entry : std::filesystem::directory_iterator(directory))
-        if(FreeImage_GetFileType(entry.path().string().c_str(),0) != FIF_UNKNOWN)
+        if (FreeImage_GetFileType(entry.path().string().c_str(), 0) != FIF_UNKNOWN)
             _files.insert(_files.end(), entry.path());
 
     _files.sort();
-    for(auto it = _files.begin(); it != _files.end(); it++){
-        if(it->string() == filename){
+    _current = 0;
+    for (auto it = _files.begin(); it != _files.end(); it++) {
+        _current++;
+        if (it->string() == filename) {
             _it = it;
             break;
         }
     }
+    _total = _files.size();
 
 
-    _index = 1;
 
-    //TODO Check if iterator goes around
-    _textures[0] = ResourceManager::Factory::createTexture(std::prev(_it)->string());
-    _textures[1] = ResourceManager::Factory::createTexture(_it->string());
-    _textures[2] = ResourceManager::Factory::createTexture(std::next(_it)->string());
-
+    _texture = ResourceManager::Factory::createTexture(_it->string());
 }
 
+/*
 int Browser::rrNext() {
     return  (_index + 1) % 3;
 }
@@ -61,42 +61,44 @@ int Browser::rrPrev() {
     return i;
 
 }
+*/
 
 std::list<std::filesystem::path>::iterator Browser::rrNextIt() {
-    if(_it == _files.end())
+    _current++;
+    if(_current > _total)
+        _current = 1;
+    if(std::next(_it) == _files.end())
         return _files.begin();
     return std::next(_it);
 }
 
 std::list<std::filesystem::path>::iterator Browser::rrPrevIt() {
+    _current--;
+    if(_current < 1)
+        _current = _total;
     if(_it == _files.begin())
-        return _files.end();
-    return std::next(_it);
+        return std::prev(_files.end());
+    return std::prev(_it);
 }
 
 Texture* Browser::getCurrentTexture() {
-    return _textures[_index];
+    return _texture;
 }
 
 void Browser::next() {
-    int replaceIndex = rrPrev();
-    ResourceManager::getInstance()->destroyTexture(rrPrevIt()->string());
+    ResourceManager::getInstance()->destroyTexture(_it->string());
     _it = rrNextIt();
-    std::cout << "N " << rrNextIt()->string() << std::endl;
-    _textures[replaceIndex] = ResourceManager::Factory::createTexture(rrNextIt()->string());
-    _index = rrNext();
-
+    _texture = ResourceManager::Factory::createTexture(_it->string());
 }
 
 void Browser::prev(){
-    /*int replaceIndex = rrNext();
-    ResourceManager::getInstance()->destroyTexture(rrNextIt()->string());
+    ResourceManager::getInstance()->destroyTexture(_it->string());
     _it = rrPrevIt();
-    std::cout << "P " << rrPrevIt()->string() << std::endl;
-    _textures[replaceIndex] = ResourceManager::Factory::createTexture(std::prev(_it)->string());
-    _index = rrPrev();*/
+    _texture = ResourceManager::Factory::createTexture(_it->string());
 }
 
 const std::string Browser::getCurrentName() {
-    return _it->filename().string();
+    std::stringstream ss;
+    ss << _it->filename() << " (" << _current << "/" << _total << ")";
+    return ss.str();
 }

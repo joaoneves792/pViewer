@@ -19,8 +19,10 @@ private:
     std::list<std::filesystem::path> _files;
     std::list<std::filesystem::path>::iterator _it;
 
-    Texture* _textures[3];
-    int _index;
+    Texture* _texture;
+
+    unsigned long _current;
+    unsigned long _total;
 
 public:
     static Browser* getInstance();
@@ -33,8 +35,6 @@ public:
     void next();
     void prev();
 private:
-    int rrNext();
-    int rrPrev();
     std::list<std::filesystem::path>::iterator rrNextIt();
     std::list<std::filesystem::path>::iterator rrPrevIt();
 
