@@ -64,20 +64,19 @@ void display(){
     glFinish();
 }
 
-void update(){
-    static int lastTime = glutGet(GLUT_ELAPSED_TIME);
+void update(int dt){
 	static SceneGraph* scene = ResourceManager::getInstance()->getScene(SCENE);
+	scene->update(dt);
+}
 
+void idle(){
+    static int lastTime = glutGet(GLUT_ELAPSED_TIME);
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
     int timeDelta = currentTime-lastTime;
     lastTime = currentTime;
 
-	scene->update(timeDelta);
-}
+    update(timeDelta);
 
-void idle(){
-    update();
-	glutPostRedisplay();
 }
 
 void resizeFBOs(int w, int h){
@@ -91,6 +90,7 @@ void reshape(int w, int h){
         resizeFBOs(w, h);
 	}
 	glViewport(0, 0, w, h);
+    glutPostRedisplay();
 }
 
 
@@ -101,7 +101,7 @@ void timer(int value){
 	glutSetWindow(WindowHandle);
 	glutSetWindowTitle(s.c_str());
     FrameCount = 0;
-    glutTimerFunc(1000, timer, 0);
+    glutTimerFunc(100, timer, 0);
 }
 
 /////////////////////////////////////////////////////////////////////// INPUT
@@ -123,10 +123,11 @@ void specialKeyboardUp(int key, int x, int y){
 
 void mouse(int button, int state, int x, int y) {
     InputManager::getInstance()->mouseMovement(x, y);
-    if(state == GLUT_DOWN)
-	    InputManager::getInstance()->specialKeyDown(button);
-    else
-    	InputManager::getInstance()->specialKeyUp(button);
+    if(state == GLUT_DOWN) {
+		InputManager::getInstance()->specialKeyDown(button);
+    }else {
+		InputManager::getInstance()->specialKeyUp(button);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////// SETUP

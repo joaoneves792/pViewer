@@ -27,7 +27,12 @@ void Browser::deleteInstance() {
 
 void Browser::init(const std::string &filename) {
     std::filesystem::path filePath = filename;
-    std::filesystem::path directory = filePath.parent_path();
+    std::filesystem::path directory;
+    if(filePath.has_extension()) {
+        directory = filePath.parent_path();
+    }else{
+        directory = filePath;
+    }
 
     for (const auto &entry : std::filesystem::directory_iterator(directory))
         if (FreeImage_GetFileType(entry.path().string().c_str(), 0) != FIF_UNKNOWN)
@@ -35,12 +40,17 @@ void Browser::init(const std::string &filename) {
 
     _files.sort();
     _current = 0;
-    for (auto it = _files.begin(); it != _files.end(); it++) {
-        _current++;
-        if (it->string() == filename) {
-            _it = it;
-            break;
+    if(filePath.has_extension()) {
+        for (auto it = _files.begin(); it != _files.end(); it++) {
+            _current++;
+            if (it->string() == filename) {
+                _it = it;
+                break;
+            }
         }
+    }else{
+        _it = _files.begin();
+        _current = 1;
     }
     _total = _files.size();
 

@@ -53,6 +53,7 @@ void setupScene(){
 
     SceneNode* quadNode = new SceneNode(QUAD, quad, rm->getShader(QUAD_SHADER));
     quadNode->translate(0.0f, 0.0f, -5.0f);
+    quadNode->scale(16.0f/9.0f, 1.0f, 1.0f);
     root->addChild(quadNode);
 
 }
@@ -63,9 +64,16 @@ void loadInput(const std::string& filename){
 
     browser->init(filename);
 
+    GLint widthLoc = ResourceManager::getInstance()->getShader(QUAD_SHADER)->getUniformLocation("texWidth");
+    GLint heightLoc = ResourceManager::getInstance()->getShader(QUAD_SHADER)->getUniformLocation("texHeight");
+
     quad->setPreDraw([=](){
-       glActiveTexture(GL_TEXTURE0);
-       browser->getCurrentTexture()->bind();
+        glActiveTexture(GL_TEXTURE0);
+        browser->getCurrentTexture()->bind();
+        auto texWidth = (float)(browser->getCurrentTexture()->getWidth());
+        auto texHeight = (float)(browser->getCurrentTexture()->getHeight());
+        glUniform1f(widthLoc, texWidth);
+        glUniform1f(heightLoc, texHeight);
     });
 
 }
