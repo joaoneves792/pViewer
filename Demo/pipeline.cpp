@@ -12,7 +12,7 @@ extern bool inVR;
 void setupPipeline(){
     ResourceManager* rm = ResourceManager::getInstance();
     QuadMesh* quad = (QuadMesh*)rm->getMesh(QUAD);
-    SceneGraph* scene = rm->getScene(SCENE);
+    //SceneGraph* scene = rm->getScene(SCENE);
 
     /*Create the framebuffers*/
     ResourceManager::Factory::createColorTextureFrameBuffer(SIDE_FBO1, WIN_X, WIN_Y);

@@ -48,8 +48,9 @@ void display(){
 		cam->setCurrentEye(EYE_RIGHT);
 		executePipeline(rightFBO);
 
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		cam->submit(leftFBO, rightFBO);
-        executePipeline(nullptr);
+        //executePipeline(nullptr);
 
 	}else {
         executePipeline(nullptr);
@@ -76,7 +77,8 @@ void idle(){
     lastTime = currentTime;
 
     update(timeDelta);
-
+	if(inVR)
+		glutPostRedisplay();
 }
 
 void resizeFBOs(int w, int h){

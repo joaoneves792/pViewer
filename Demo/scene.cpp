@@ -32,7 +32,7 @@ void setupScene(){
     Camera* camera = nullptr;
 
     if(inVR){
-        auto VRCam= ResourceManager::Factory::createVRCamera(SPHERE_CAM, Vec3(0.0f, GROUND_LEVEL, 0.0f), Quat(1.0f, 0.0f, 0.0f, 0.0f));
+        auto VRCam = ResourceManager::Factory::createOpenHMDCamera(SPHERE_CAM, Vec3(0.0f, GROUND_LEVEL, 0.0f), Quat(1.0f, 0.0f, 0.0f, 0.0f));
         if(VRCam->isReady()) {
             VRCam->perspective(1.0f, 1000.0f);
             camera = VRCam;
@@ -53,7 +53,7 @@ void setupScene(){
 
     SceneNode* quadNode = new SceneNode(QUAD, quad, rm->getShader(QUAD_SHADER));
     quadNode->translate(0.0f, 0.0f, -5.0f);
-    quadNode->scale(16.0f/9.0f, 1.0f, 1.0f);
+    quadNode->scale(ASPECT_RATIO, 1.0f, 1.0f);
     root->addChild(quadNode);
 
 }

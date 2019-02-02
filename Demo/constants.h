@@ -84,6 +84,7 @@
 /*Window properties*/
 #define WIN_X 1920
 #define WIN_Y 993
+#define ASPECT_RATIO (16.0f/9.0f)
 #define MSAA 4
 
 /*Important Nodes*/
