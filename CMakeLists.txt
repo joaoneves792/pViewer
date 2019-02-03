@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.2.2)
-project(CGJDemo C CXX)
+project(pViewer C CXX)
 
 if( MSVC )
 	list(APPEND CMAKE_PREFIX_PATH

@@ -10,6 +10,7 @@
 #include <filesystem>
 #include <string>
 #include <CGJengine.h>
+#include <memory>
 
 class Browser {
 private:
@@ -19,7 +20,7 @@ private:
     std::list<std::filesystem::path> _files;
     std::list<std::filesystem::path>::iterator _it;
 
-    Texture* _texture;
+    std::shared_ptr<Texture> _texture;
 
     unsigned long _current;
     unsigned long _total;
@@ -30,7 +31,7 @@ public:
 
     void init(const std::string& filename);
 
-    Texture* getCurrentTexture();
+    std::shared_ptr<Texture> getCurrentTexture();
     const std::string getCurrentName();
     void next();
     void prev();

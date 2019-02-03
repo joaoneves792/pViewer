@@ -9,6 +9,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <memory>
 #include <FreeImage.h>
 
 Browser* Browser::_ourInstance = nullptr;
@@ -91,17 +92,19 @@ std::list<std::filesystem::path>::iterator Browser::rrPrevIt() {
     return std::prev(_it);
 }
 
-Texture* Browser::getCurrentTexture() {
+std::shared_ptr<Texture> Browser::getCurrentTexture() {
     return _texture;
 }
 
 void Browser::next() {
+    _texture.reset();
     ResourceManager::getInstance()->destroyTexture(_it->string());
     _it = rrNextIt();
     _texture = ResourceManager::Factory::createTexture(_it->string());
 }
 
 void Browser::prev(){
+    _texture.reset();
     ResourceManager::getInstance()->destroyTexture(_it->string());
     _it = rrPrevIt();
     _texture = ResourceManager::Factory::createTexture(_it->string());
