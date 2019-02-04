@@ -3,12 +3,12 @@ project(pViewer C CXX)
 
 if( MSVC )
 	list(APPEND CMAKE_PREFIX_PATH
-		${CGJDemo_SOURCE_DIR}/dependencies/glew-2.1.0/ 
-		${CGJDemo_SOURCE_DIR}/dependencies/freeglut/ )
+		${pViewer_SOURCE_DIR}/dependencies/glew-2.1.0/
+		${pViewer_SOURCE_DIR}/dependencies/freeglut/ )
 endif (MSVC)
 
 list(APPEND CMAKE_MODULE_PATH
-	${CGJDemo_SOURCE_DIR}/CGJEngine/cmake/ ) 
+	${pViewer_SOURCE_DIR}/CGJEngine/cmake/ )
 
 set(OpenGL_GL_PREFERENCE GLVND)
 
@@ -30,7 +30,7 @@ if(glm_FOUND)
 	message(STATUS "GLM : " ${GLM_INCLUDE_DIRS})
 else(glm_FOUND)
 	message(STATUS "Using bundled GLM")
-	set(GLM_INCLUDE_DIRS "${CGJDemo_SOURCE_DIR}/dependencies/glm-0.9.8.5/")
+	set(GLM_INCLUDE_DIRS "${pViewer_SOURCE_DIR}/dependencies/glm-0.9.8.5/")
 	message(STATUS "GLM : " ${GLM_INCLUDE_DIRS})
 endif(glm_FOUND)
 
@@ -70,11 +70,11 @@ endif(OPENHMD_LIBRARIES-NOTFOUND)
 
 if( MSVC )
 	if(CMAKE_SIZEOF_VOID_P EQUAL 4) #HACK TO FIGURE OUT WETHER BUILDING x86 or x64
-		set(GLEW_LIBRARIES ${CGJDemo_SOURCE_DIR}/dependencies/glew-2.1.0/lib/libx32/glew32s.lib)
-		set(GLUT_LIBRARIES ${CGJDemo_SOURCE_DIR}/dependencies/freeglut/lib/freeglut.lib)
+		set(GLEW_LIBRARIES ${pViewer_SOURCE_DIR}/dependencies/glew-2.1.0/lib/libx32/glew32s.lib)
+		set(GLUT_LIBRARIES ${pViewer_SOURCE_DIR}/dependencies/freeglut/lib/freeglut.lib)
 	else(CMAKE_SIZEOF_VOID_P EQUAL 4)
-		set(GLEW_LIBRARIES ${CGJDemo_SOURCE_DIR}/dependencies/glew-2.1.0/lib/lib64/glew32s.lib)
-		set(GLUT_LIBRARIES ${CGJDemo_SOURCE_DIR}/dependencies/freeglut/lib/x64/freeglut.lib)
+		set(GLEW_LIBRARIES ${pViewer_SOURCE_DIR}/dependencies/glew-2.1.0/lib/lib64/glew32s.lib)
+		set(GLUT_LIBRARIES ${pViewer_SOURCE_DIR}/dependencies/freeglut/lib/x64/freeglut.lib)
 	endif(CMAKE_SIZEOF_VOID_P EQUAL 4)
 endif (MSVC)
 
@@ -109,11 +109,11 @@ else(MSVC)
 endif (MSVC)
 
 
-#set(ZLIB_INCLUDE_DIRS ${CGJDemo_SOURCE_DIR}/dependencies/zlib
+#set(ZLIB_INCLUDE_DIRS ${pViewer_SOURCE_DIR}/dependencies/zlib
 #        CACHE INTERNAL "ZLIB: Include Directories" FORCE)
-#set(JPEG_INCLUDE_DIR ${CGJDemo_SOURCE_DIR}/dependencies/libjpeg
+#set(JPEG_INCLUDE_DIR ${pViewer_SOURCE_DIR}/dependencies/libjpeg
 #        CACHE INTERNAL "JPEG: Include Directories" FORCE)
-#set(PNG_INCLUDE_DIR ${CGJDemo_SOURCE_DIR}/dependencies/libpng
+#set(PNG_INCLUDE_DIR ${pViewer_SOURCE_DIR}/dependencies/libpng
 #        CACHE INTERNAL "PNG: Include Directories" FORCE)
 #add_subdirectory(dependencies/zlib)
 #add_subdirectory(dependencies/libjpeg)
