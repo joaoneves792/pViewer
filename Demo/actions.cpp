@@ -9,11 +9,15 @@
 #include "constants.h"
 #include "SceneGraph/SceneNode.h"
 #include "Browser.h"
-#include "GL/freeglut.h"
 
+#include <SDL.h>
 
 #define ESCAPE 27
-#define SPACE 0x20
+
+extern bool running;
+extern SDL_Window* WindowHandle;
+
+void reshape(int w, int h);
 
 void setupActions() {
     SceneGraph *scene = ResourceManager::getInstance()->getScene(SCENE);
@@ -30,7 +34,6 @@ void setupActions() {
        static SceneNode* quad = ResourceManager::getInstance()->getScene(SCENE)->findNode(QUAD);
        scale += dt*movementRate;
        quad->scale(scale*ASPECT_RATIO, scale, 1.0f);
-       glutPostRedisplay();
     });
     im->addKeyAction('s', [&](int dt){
         static SceneNode* quad = ResourceManager::getInstance()->getScene(SCENE)->findNode(QUAD);
@@ -40,37 +43,41 @@ void setupActions() {
             scale = 0.1f;
         if(scale >= 0.1f)
             quad->scale(scale*ASPECT_RATIO, scale, 1.0f);
-        glutPostRedisplay();
     });
 
     im->addKeyAction('W', [=](int timeDelta){
         scene->findNode(QUAD)->translate(0.0f, 0.0f, (timeDelta * movementRate));
-        glutPostRedisplay();
     });
     im->addKeyAction('S', [=](int timeDelta){
         scene->findNode(QUAD)->translate(0.0f, 0.0f, -(timeDelta * movementRate));
-        glutPostRedisplay();
     });
     im->addKeyAction(ESCAPE, [=](int timeDelta){
-        glutLeaveMainLoop();
+        running = false;
     });
     im->addKeyActionOnce(' ', [=](){
         VRCamera* cam = (VRCamera*)ResourceManager::getInstance()->getCamera(SPHERE_CAM);
         if(cam)
             cam->recenter();
-        glutPostRedisplay();
     });
 
-    im->addSpecialKeyActionOnce(GLUT_KEY_F11, [=](){
-       glutFullScreenToggle();
+    im->addSpecialKeyActionOnce(SDLK_F11, [=](){
+        static bool fullscreen = false;
+        fullscreen = !fullscreen;
+        if(fullscreen) {
+            SDL_SetWindowFullscreen(WindowHandle, SDL_WINDOW_FULLSCREEN);
+            SDL_DisplayMode dm;
+            SDL_GetCurrentDisplayMode(0, &dm);
+            reshape(dm.w, dm.h);
+        }else
+            SDL_SetWindowFullscreen(WindowHandle, 0);
+
+       //glutFullScreenToggle();
     });
 
-    im->addSpecialKeyActionOnce(3, [=](){
+    im->addSpecialKeyActionOnce(PVIEWER_MOUSE_WHEEL_UP, [=](){
        Browser::getInstance()->next();
-        glutPostRedisplay();
     });
-    im->addSpecialKeyActionOnce(4, [=](){
+    im->addSpecialKeyActionOnce(PVIEWER_MOUSE_WHEEL_DOWN, [=](){
         Browser::getInstance()->prev();
-        glutPostRedisplay();
     });
 }

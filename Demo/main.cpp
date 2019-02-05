@@ -8,7 +8,13 @@ extern "C" {
 }
 
 #include "GL/glew.h"
-#include "GL/freeglut.h"
+
+#define GL_GLEXT_PROTOTYPES
+#include "SDL.h"
+#include "SDL_video.h"
+#include "SDL_opengl.h"
+#include "SDL_syswm.h"
+
 
 #include "CGJengine.h"
 #include "scene.h"
@@ -21,14 +27,22 @@ extern "C" {
 
 int WinX = WIN_X;
 int WinY = WIN_Y;
-int WindowHandle = 0;
+SDL_Window* WindowHandle = nullptr;
 unsigned int FrameCount = 0;
 int inVR = 0;
+bool running = true;
+
+/*
+SDL_SysWMinfo info;
+Display *sdl_display = NULL;
+Window sdl_win = 0;
+GLXContext sdl_gl_context = NULL;
+*/
 
 /////////////////////////////////////////////////////////////////////// CALLBACKS
 void cleanup(){
     ResourceManager::getInstance()->destroyEverything();
-    ResourceManager::getInstance()->deleteInstance();
+    ResourceManager::deleteInstance();
 }
 
 
@@ -56,7 +70,7 @@ void display(){
         executePipeline(nullptr);
     }
 	checkOpenGLError("ERROR: Could not draw scene.");
-	glutSwapBuffers();
+	SDL_GL_SwapWindow(WindowHandle);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClearColor( 0, 0, 0, 1 );
@@ -67,18 +81,33 @@ void display(){
 
 void update(int dt){
 	static SceneGraph* scene = ResourceManager::getInstance()->getScene(SCENE);
+	InputManager::update();
 	scene->update(dt);
 }
 
+void timer(int value){
+	std::ostringstream oss;
+	oss << Browser::getInstance()->getCurrentName() << ": " << FrameCount << " FPS";
+	std::string s = oss.str();
+	SDL_SetWindowTitle(WindowHandle, s.c_str());
+	FrameCount = 0;
+}
+
 void idle(){
-    static int lastTime = glutGet(GLUT_ELAPSED_TIME);
-    int currentTime = glutGet(GLUT_ELAPSED_TIME);
-    int timeDelta = currentTime-lastTime;
+    static long lastTime = InputManager::getTime();
+    long currentTime = InputManager::getTime();
+    int timeDelta = (int)(currentTime-lastTime);
     lastTime = currentTime;
 
+    static int timer1 = 100;
+    timer1 -= timeDelta;
+    if(timer1 <= 0){
+    	timer1 = 100;
+    	timer(0);
+    }
+
     update(timeDelta);
-	if(inVR)
-		glutPostRedisplay();
+	display();
 }
 
 void resizeFBOs(int w, int h){
@@ -86,25 +115,16 @@ void resizeFBOs(int w, int h){
     ResourceManager::getInstance()->getFrameBuffer(SIDE_FBO1)->resize(w, h);
 }
 void reshape(int w, int h){
-    WinX = w;
+    if(w <= 0 || h <= 0)
+		return;
+	WinX = w;
     WinY = h;
     if(!inVR) {
         resizeFBOs(w, h);
 	}
 	glViewport(0, 0, w, h);
-    glutPostRedisplay();
 }
 
-
-void timer(int value){
-	std::ostringstream oss;
-	oss << Browser::getInstance()->getCurrentName() << ": " << FrameCount << " FPS";
-	std::string s = oss.str();
-	glutSetWindow(WindowHandle);
-	glutSetWindowTitle(s.c_str());
-    FrameCount = 0;
-    glutTimerFunc(100, timer, 0);
-}
 
 /////////////////////////////////////////////////////////////////////// INPUT
 void keyboard(unsigned char key, int x, int y){
@@ -125,27 +145,15 @@ void specialKeyboardUp(int key, int x, int y){
 
 void mouse(int button, int state, int x, int y) {
     InputManager::getInstance()->mouseMovement(x, y);
-    if(state == GLUT_DOWN) {
+    if(state == SDL_PRESSED) {
 		InputManager::getInstance()->specialKeyDown(button);
-    }else {
+    }else if(state == SDL_RELEASED){
 		InputManager::getInstance()->specialKeyUp(button);
 	}
 }
 
 /////////////////////////////////////////////////////////////////////// SETUP
 
-void setupCallbacks(){
-	glutCloseFunc(cleanup);
-	glutDisplayFunc(display);
-	glutIdleFunc(idle);
-	glutReshapeFunc(reshape);
-	glutTimerFunc(0,timer,0);
-	glutMouseFunc(mouse);
-	glutKeyboardFunc(keyboard);
-    glutKeyboardUpFunc(keyboardUp);
-    glutSpecialFunc(specialKeyboard);
-    glutSpecialUpFunc(specialKeyboardUp);
-}
 
 void checkOpenGLInfo(){
 	const GLubyte *renderer = glGetString(GL_RENDERER);
@@ -183,33 +191,42 @@ void setupOpenGL(){
 
 void setupGLEW() {
 	glewExperimental = GL_TRUE;
-	GLenum result = glewInit() ; 
-	if (result != GLEW_OK) { 
+	GLenum result = glewInit() ;
+	if (result != GLEW_OK) {
 		std::cerr << "ERROR glewInit: " << glewGetString(result) << std::endl;
 		exit(EXIT_FAILURE);
-	} 
+	}
 	//GLenum err_code = glGetError();
 }
 
-void setupGLUT(int argc, char* argv[]){
-	glutInit(&argc, argv);
-	
-	glutInitContextVersion(3, 3);
-	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
-	glutInitContextProfile(GLUT_CORE_PROFILE);
-	
+void setupSDL2(int argc, char** argv){
+	SDL_GLContext context;
 
-	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE,GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-
-	glutInitWindowSize(WIN_X, WIN_Y);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	WindowHandle = glutCreateWindow(CAPTION);
-	if(WindowHandle < 1) {
-		std::cerr << "ERROR: Could not create a new rendering window." << std::endl;
-		exit(EXIT_FAILURE);
+	if (SDL_Init (SDL_INIT_EVERYTHING) < 0) {
+		std::cerr << "Unable to initialize SDL: " << SDL_GetError() << std::endl;
+		exit(-1);
 	}
-    //glutSetCursor(GLUT_CURSOR_NONE);
-	//glutWarpPointer(WIN_X/2, WIN_Y/2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+
+	WindowHandle = SDL_CreateWindow(CAPTION, SDL_WINDOWPOS_CENTERED,
+								 SDL_WINDOWPOS_CENTERED, WinX, WinY, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+	if (!WindowHandle){
+		std::cerr << SDL_GetError() << std::endl;
+		exit(-1);
+	}
+
+	context = SDL_GL_CreateContext(WindowHandle);
+	if (!context){
+		std::cerr << SDL_GetError() << std::endl;
+		exit(-1);
+	}
+
+	//SDL_GL_SetSwapInterval(1); // VSync
 }
 
 void setupVR(){
@@ -250,27 +267,83 @@ void init(int argc, char* argv[]){
 	if(filename.empty())
 		exit(-1);
 
-	setupGLUT(argc, argv);
+	setupSDL2(argc, argv);
 	setupGLEW();
 	setupOpenGL();
+
+	InputManager::getInstance()->setActionInterval(10);
 
     setupScene();
 	setupPipeline();
     setupActions();
-
-	setupCallbacks();
-
 
 	loadInput(filename);
 
 	if(inVR){
 		setupVR();
 	}
+	reshape(WinX, WinY);
 }
+
+void mainLoop(){
+	while(running){
+		SDL_Event evt;
+		SDL_Keycode key;
+		while (SDL_PollEvent(&evt)){
+			switch(evt.type){
+				case SDL_KEYDOWN:
+				case SDL_KEYUP:
+					key = evt.key.keysym.sym;
+                    if(key >= 'a' && key <= 'z' && evt.key.keysym.mod & KMOD_SHIFT)
+	                   	key -= ('a'-'A');
+					if(key < 256) {
+						if (evt.type == SDL_KEYDOWN)
+							keyboard((unsigned char) key, 0, 0);
+						else
+							keyboardUp((unsigned char) key, 0, 0);
+					}else {
+						if(evt.type == SDL_KEYDOWN)
+							specialKeyboard((int) key, 0, 0);
+						else
+							specialKeyboardUp((int)key, 0, 0);
+					}
+					break;
+				case SDL_MOUSEMOTION:
+					mouse(0, 0, evt.motion.x, evt.motion.y);
+					break;
+				case SDL_MOUSEBUTTONDOWN:
+				case SDL_MOUSEBUTTONUP:
+					mouse(evt.button.button, evt.button.state, evt.button.x, evt.button.y);
+					break;
+				case SDL_MOUSEWHEEL:
+					mouse((evt.wheel.y > 0)?PVIEWER_MOUSE_WHEEL_UP:PVIEWER_MOUSE_WHEEL_DOWN, SDL_PRESSED, 0, 0);
+					break;
+				case SDL_WINDOWEVENT:
+					switch (evt.window.event){
+						case SDL_WINDOWEVENT_RESIZED:
+						case SDL_WINDOWEVENT_SIZE_CHANGED:
+						case SDL_WINDOWEVENT_MAXIMIZED:
+						case SDL_WINDOWEVENT_RESTORED:
+							reshape(evt.window.data1, evt.window.data2);
+							break;
+						case SDL_WINDOWEVENT_CLOSE:
+							running = false;
+							break;
+						default:
+							break;
+					};
+				default:
+					break;
+			};
+		}
+		idle();
+	}
+}
+
 
 int main(int argc, char* argv[]){
 	init(argc, argv);
-	glutMainLoop();
+	mainLoop();
 	exit(EXIT_SUCCESS);
 }
 

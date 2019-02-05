@@ -8,7 +8,8 @@ set(CMAKE_REQUIRED_FLAGS -std=c++17)
 include_directories(
 	includes/
 	${GLEW_INCLUDE_DIR}
-	${GLUT_INCLUDE_DIR}
+	#${GLUT_INCLUDE_DIR}
+	${SDL2_INCLUDE_DIR}
 	${GLM_INCLUDE_DIRS}
 	${OPENVR_INCLUDE_DIR}
 	${OPENHMD_INCLUDE_DIR}
@@ -29,9 +30,8 @@ set(SOURCE_FILES
 		pipeline.cpp pipeline.h Browser.cpp Browser.h)
 
 add_executable(demo ${SOURCE_FILES})
-target_link_libraries(demo stdc++fs ${GLEW_LIBRARIES} ${GLUT_LIBRARIES} ${OPENGL_LIBRARIES}
+target_link_libraries(demo stdc++fs ${GLEW_LIBRARIES} ${SDL2_LIBRARY} ${OPENGL_LIBRARIES}
                                     ${OPENVR_LIBRARIES} ${OPENHMD_LIBRARIES} CGJEngine)
-add_dependencies(demo InstallFreeGLUT CGJEngine)
 
 add_custom_command(TARGET demo POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory

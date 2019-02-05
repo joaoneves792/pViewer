@@ -8,12 +8,14 @@ if( MSVC )
 endif (MSVC)
 
 list(APPEND CMAKE_MODULE_PATH
-	${pViewer_SOURCE_DIR}/CGJEngine/cmake/ )
+	${pViewer_SOURCE_DIR}/CGJEngine/cmake/
+    ${pViewer_SOURCE_DIR}/cmake/ )
 
 set(OpenGL_GL_PREFERENCE GLVND)
 
 find_package(GLEW REQUIRED)
-find_package(GLUT REQUIRED)
+#find_package(GLUT REQUIRED)
+find_package(SDL2 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(glm QUIET)
 

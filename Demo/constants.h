@@ -6,6 +6,10 @@
 #define CGJDEMO_CONSTANTS_H
 
 
+/*MOUSE*/
+#define PVIEWER_MOUSE_WHEEL_UP 12345
+#define PVIEWER_MOUSE_WHEEL_DOWN 54321
+
 /*Meshes*/
 #define CAR "car"
 #define WHEEL "wheel"
