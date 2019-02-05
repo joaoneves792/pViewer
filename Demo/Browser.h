@@ -11,6 +11,7 @@
 #include <string>
 #include <CGJengine.h>
 #include <memory>
+#include "MediaInterface.h"
 
 class Browser {
 private:
@@ -20,9 +21,7 @@ private:
     std::list<std::filesystem::path> _files;
     std::list<std::filesystem::path>::iterator _it;
 
-    std::shared_ptr<Texture> _texture;
-    int _width;
-    int _height;
+    MediaInterface* _currentMedia;
 
     unsigned long _current;
     unsigned long _total;

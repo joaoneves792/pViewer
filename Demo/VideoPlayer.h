@@ -14,10 +14,12 @@
 
 #include <GL/glx.h>
 #include <stdio.h>
+extern "C" {
 #include <gst/gst.h>
 #include <glib.h>
 #include <gst/gl/x11/gstgldisplay_x11.h>
 #include <gst/gl/gl.h>
+}
 
 #include <string>
 
@@ -34,12 +36,18 @@ private:
     GLXContext _sdl_gl_context;
 
     //Gstreamer loop
-    GMainLoop* _loop;
-    GstElement* _pipeline;
-    GAsyncQueue *_queue_input_buf;
-    GAsyncQueue *_queue_output_buf;
-    GstVideoInfo _info;
-    GLuint _texture;
+    static bool _reset;
+    static GMainLoop* _loop;
+    static GstElement* _pipeline;
+    static GAsyncQueue *_queue_input_buf;
+    static GAsyncQueue *_queue_output_buf;
+    static GstVideoInfo _info;
+    static GLuint _texture;
+    static GstBuffer* _buffer;
+
+    //Video
+    int _width;
+    int _height;
 private:
     VideoPlayer(Display* sdlDisplay, Window sdlWindow, GLXContext glxContext);
     ~VideoPlayer();
@@ -57,6 +65,11 @@ public:
 
     GstGLDisplay* getDisplay();
     GstGLContext* getContext();
+
+    int getWidth();
+    int getHeight();
+
+    static void on_gst_buffer (GstElement * fakesink, GstBuffer * buf, GstPad * pad, gpointer data);
 };
 
 

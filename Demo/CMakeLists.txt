@@ -30,7 +30,7 @@ set(SOURCE_FILES
 		shaders.cpp
 		shaders.h
 		constants.h
-		pipeline.cpp pipeline.h Browser.cpp Browser.h VideoPlayer.cpp VideoPlayer.h)
+		pipeline.cpp pipeline.h Browser.cpp Browser.h VideoPlayer.cpp VideoPlayer.h MediaInterface.cpp MediaInterface.h)
 
 add_executable(demo ${SOURCE_FILES})
 target_link_libraries(demo stdc++fs ${GLEW_LIBRARIES} ${SDL2_LIBRARY} ${OPENGL_LIBRARIES}

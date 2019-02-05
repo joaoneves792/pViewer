@@ -55,26 +55,9 @@ void Browser::init(const std::string &filename) {
     }
     _total = _files.size();
 
-
-
-    _texture = ResourceManager::Factory::createTexture(_it->string());
-    _width = _texture->getWidth();
-    _height = _texture->getHeight();
+    _currentMedia = MediaInterfaceFactory(_it->string());
+    _currentMedia->load();
 }
-
-/*
-int Browser::rrNext() {
-    return  (_index + 1) % 3;
-}
-
-int Browser::rrPrev() {
-    int i = (_index - 1) % 3;
-    if(i < 0)
-        i = 2;
-    return i;
-
-}
-*/
 
 std::list<std::filesystem::path>::iterator Browser::rrNextIt() {
     _current++;
@@ -95,37 +78,35 @@ std::list<std::filesystem::path>::iterator Browser::rrPrevIt() {
 }
 
 void Browser::bindTexture() {
-    _texture->bind();
+    _currentMedia->bindTexture();
 }
 
 void Browser::releaseTexture() {
-    //empty for now
+    _currentMedia->releaseTexture();
 }
 
 int Browser::getCurrentWidth() {
-    return _width;
+    return _currentMedia->getWidth();
 }
 
 int Browser::getCurrentHeight() {
-    return _height;
+    return _currentMedia->getHeight();
 }
 
 void Browser::next() {
-    _texture.reset();
-    ResourceManager::getInstance()->destroyTexture(_it->string());
+    _currentMedia->unload();
+    delete _currentMedia;
     _it = rrNextIt();
-    _texture = ResourceManager::Factory::createTexture(_it->string());
-    _width = _texture->getWidth();
-    _height = _texture->getHeight();
+    _currentMedia = MediaInterfaceFactory(_it->string());
+    _currentMedia->load();
 }
 
 void Browser::prev(){
-    _texture.reset();
-    ResourceManager::getInstance()->destroyTexture(_it->string());
+    _currentMedia->unload();
+    delete _currentMedia;
     _it = rrPrevIt();
-    _texture = ResourceManager::Factory::createTexture(_it->string());
-    _width = _texture->getWidth();
-    _height = _texture->getHeight();
+    _currentMedia = MediaInterfaceFactory(_it->string());
+    _currentMedia->load();
 }
 
 const std::string Browser::getCurrentName() {

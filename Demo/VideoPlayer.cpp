@@ -12,19 +12,45 @@
 
 #include <GL/glx.h>
 #include <stdio.h>
+extern "C" {
 #include <gst/gst.h>
 #include <glib.h>
 #include <gst/gl/x11/gstgldisplay_x11.h>
 #include <gst/gl/gl.h>
+}
+
 #include <sstream>
 
 //----------------Singleton------------------
 VideoPlayer* VideoPlayer::_ourInstance = nullptr;
 
+bool VideoPlayer::_reset;
+GMainLoop* VideoPlayer::_loop;
+GstElement* VideoPlayer::_pipeline;
+GAsyncQueue *VideoPlayer::_queue_input_buf;
+GAsyncQueue *VideoPlayer::_queue_output_buf;
+GstVideoInfo VideoPlayer::_info;
+GLuint VideoPlayer::_texture;
+GstBuffer* VideoPlayer::_buffer;
 
 //----------------Callbacks------------------
-static void on_gst_buffer (GstElement * fakesink, GstBuffer * buf, GstPad * pad, gpointer data) {
+void VideoPlayer::on_gst_buffer (GstElement * fakesink, GstBuffer * buf, GstPad * pad, gpointer data) {
+    if(_reset) {
+        GstCaps *caps = gst_pad_get_current_caps(pad);
+        gst_video_info_from_caps(&_info, caps);
+        _reset = false;
+    }
+    /* ref then push buffer to use it in sdl */
+    if(g_async_queue_length (_queue_input_buf) < 3){
+        gst_buffer_ref (buf);
+        g_async_queue_push (_queue_input_buf, buf);
+    }
 
+    /* pop then unref buffer we have finished to use in sdl */
+    while(g_async_queue_length (_queue_output_buf) > 0) {
+        GstBuffer *buf_old = (GstBuffer *) g_async_queue_pop (_queue_output_buf);
+        gst_buffer_unref (buf_old);
+    }
 }
 
 static gboolean sync_bus_call (GstBus * bus, GstMessage * msg, gpointer data){
@@ -59,7 +85,36 @@ static gboolean sync_bus_call (GstBus * bus, GstMessage * msg, gpointer data){
 }
 
 static void end_stream_cb (GstBus * bus, GstMessage * msg, GMainLoop * loop){
+    switch (GST_MESSAGE_TYPE (msg)) {
 
+        case GST_MESSAGE_EOS:
+            g_print ("End-of-stream\n");
+            g_print
+                    ("For more information, try to run: GST_DEBUG=gl*:3 ./sdlshare\n");
+            break;
+
+        case GST_MESSAGE_ERROR:
+        {
+            gchar *debug = NULL;
+            GError *err = NULL;
+
+            gst_message_parse_error (msg, &err, &debug);
+
+            g_print ("Error: %s\n", err->message);
+            g_error_free (err);
+
+            if (debug) {
+                g_print ("Debug deails: %s\n", debug);
+                g_free (debug);
+            }
+
+            break;
+        }
+
+        default:
+            g_print ("Unexpected\n");
+            break;
+    }
 }
 //----------------Class methods--------------
 VideoPlayer* VideoPlayer::getInstance(Display *sdlDisplay, Window sdlWindow, GLXContext glxContext) {
@@ -114,7 +169,7 @@ VideoPlayer::VideoPlayer(Display *sdlDisplay, Window sdlWindow, GLXContext glxCo
     //Configure the pipeline
     g_object_set (G_OBJECT (sink), "signal-handoffs", TRUE, NULL);
     g_object_set (G_OBJECT (sink), "sync", 1, NULL);
-    g_signal_connect (sink, "handoff", G_CALLBACK (on_gst_buffer), NULL);
+    g_signal_connect (sink, "handoff", G_CALLBACK (VideoPlayer::on_gst_buffer), NULL);
     _queue_input_buf = g_async_queue_new ();
     _queue_output_buf = g_async_queue_new ();
     g_object_set_data (G_OBJECT (sink), "queue_input_buf", _queue_input_buf);
@@ -136,6 +191,10 @@ VideoPlayer::VideoPlayer(Display *sdlDisplay, Window sdlWindow, GLXContext glxCo
     //Make sure gl context is shared
     pause();
     glXMakeCurrent(_sdl_display, _sdl_win, _sdl_gl_context);
+
+    //Safe defaults
+    _width = 4;
+    _height = 4;
 }
 
 VideoPlayer::~VideoPlayer() {
@@ -169,5 +228,33 @@ GstGLDisplay* VideoPlayer::getDisplay() {
 void VideoPlayer::loadFile(std::string &filename) {
     std::stringstream ss;
     ss << "file://" << filename;
+    _reset = true;
     g_object_set (G_OBJECT (_pipeline), "uri", ss.str().c_str(), NULL);
+}
+
+void VideoPlayer::bindTexture() {
+    _buffer = (GstBuffer *) g_async_queue_pop (_queue_output_buf);
+    GstVideoFrame v_frame;
+
+    if (!gst_video_frame_map(&v_frame, &_info, _buffer, (GstMapFlags)(GST_MAP_READ | GST_MAP_GL))) {
+        g_warning ("Failed to map the video buffer");
+    }else{
+        _texture = *(GLuint *) v_frame.data[0];
+        _width = _info.width; //These are here to make sure they are valid
+        _height = _info.height;
+        glBindTexture(GL_TEXTURE_2D, _texture);
+        gst_video_frame_unmap(&v_frame);
+    }
+}
+
+void VideoPlayer::releaseTexture() {
+    g_async_queue_push (_queue_output_buf, _buffer);
+}
+
+int VideoPlayer::getWidth() {
+    return _width;
+}
+
+int VideoPlayer::getHeight() {
+    return _height;
 }
