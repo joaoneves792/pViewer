@@ -21,6 +21,8 @@ private:
     std::list<std::filesystem::path>::iterator _it;
 
     std::shared_ptr<Texture> _texture;
+    int _width;
+    int _height;
 
     unsigned long _current;
     unsigned long _total;
@@ -31,7 +33,10 @@ public:
 
     void init(const std::string& filename);
 
-    std::shared_ptr<Texture> getCurrentTexture();
+    void bindTexture();
+    void releaseTexture();
+    int getCurrentWidth();
+    int getCurrentHeight();
     const std::string getCurrentName();
     void next();
     void prev();

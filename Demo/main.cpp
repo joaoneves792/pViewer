@@ -14,6 +14,7 @@ extern "C" {
 #include "SDL_video.h"
 #include "SDL_opengl.h"
 #include "SDL_syswm.h"
+#include <GL/glx.h>
 
 
 #include "CGJengine.h"
@@ -22,6 +23,7 @@ extern "C" {
 #include "constants.h"
 #include "pipeline.h"
 #include "Browser.h"
+#include "VideoPlayer.h"
 
 #define CAPTION "CGJDemo"
 
@@ -43,6 +45,8 @@ GLXContext sdl_gl_context = NULL;
 void cleanup(){
     ResourceManager::getInstance()->destroyEverything();
     ResourceManager::deleteInstance();
+    Browser::deleteInstance();
+    VideoPlayer::deleteInstance();
 }
 
 
@@ -226,7 +230,7 @@ void setupSDL2(int argc, char** argv){
 		exit(-1);
 	}
 
-	//SDL_GL_SetSwapInterval(1); // VSync
+	SDL_GL_SetSwapInterval(1); // VSync
 }
 
 void setupVR(){
@@ -276,6 +280,16 @@ void init(int argc, char* argv[]){
     setupScene();
 	setupPipeline();
     setupActions();
+
+	SDL_SysWMinfo info;
+	SDL_VERSION (&info.version);
+	SDL_GetWindowWMInfo(WindowHandle, &info);
+
+	Display* sdl_display = info.info.x11.display;
+	Window sdl_win = info.info.x11.window;
+	GLXContext sdl_gl_context = glXGetCurrentContext ();
+
+	VideoPlayer* vp = VideoPlayer::getInstance(sdl_display, sdl_win, sdl_gl_context);
 
 	loadInput(filename);
 
@@ -338,6 +352,8 @@ void mainLoop(){
 		}
 		idle();
 	}
+	cleanup();
+	SDL_Quit();
 }
 
 

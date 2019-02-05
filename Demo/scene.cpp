@@ -69,11 +69,15 @@ void loadInput(const std::string& filename){
 
     quad->setPreDraw([=](){
         glActiveTexture(GL_TEXTURE0);
-        browser->getCurrentTexture()->bind();
-        auto texWidth = (float)(browser->getCurrentTexture()->getWidth());
-        auto texHeight = (float)(browser->getCurrentTexture()->getHeight());
+        browser->bindTexture();
+        auto texWidth = (float)(browser->getCurrentWidth());
+        auto texHeight = (float)(browser->getCurrentHeight());
         glUniform1f(widthLoc, texWidth);
         glUniform1f(heightLoc, texHeight);
+    });
+
+    quad->setPostDraw([=](){
+       browser->releaseTexture();
     });
 
 }

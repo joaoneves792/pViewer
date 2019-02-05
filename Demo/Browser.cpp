@@ -58,6 +58,8 @@ void Browser::init(const std::string &filename) {
 
 
     _texture = ResourceManager::Factory::createTexture(_it->string());
+    _width = _texture->getWidth();
+    _height = _texture->getHeight();
 }
 
 /*
@@ -92,8 +94,20 @@ std::list<std::filesystem::path>::iterator Browser::rrPrevIt() {
     return std::prev(_it);
 }
 
-std::shared_ptr<Texture> Browser::getCurrentTexture() {
-    return _texture;
+void Browser::bindTexture() {
+    _texture->bind();
+}
+
+void Browser::releaseTexture() {
+    //empty for now
+}
+
+int Browser::getCurrentWidth() {
+    return _width;
+}
+
+int Browser::getCurrentHeight() {
+    return _height;
 }
 
 void Browser::next() {
@@ -101,6 +115,8 @@ void Browser::next() {
     ResourceManager::getInstance()->destroyTexture(_it->string());
     _it = rrNextIt();
     _texture = ResourceManager::Factory::createTexture(_it->string());
+    _width = _texture->getWidth();
+    _height = _texture->getHeight();
 }
 
 void Browser::prev(){
@@ -108,6 +124,8 @@ void Browser::prev(){
     ResourceManager::getInstance()->destroyTexture(_it->string());
     _it = rrPrevIt();
     _texture = ResourceManager::Factory::createTexture(_it->string());
+    _width = _texture->getWidth();
+    _height = _texture->getHeight();
 }
 
 const std::string Browser::getCurrentName() {

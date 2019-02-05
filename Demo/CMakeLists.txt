@@ -13,6 +13,9 @@ include_directories(
 	${GLM_INCLUDE_DIRS}
 	${OPENVR_INCLUDE_DIR}
 	${OPENHMD_INCLUDE_DIR}
+	${GST_INCLUDE_DIRS}
+	${GSTVIDEO_INCLUDE_DIRS}
+	${GSTGL_INCLUDE_DIRS}
    	${CGJEngine_INCLUDE_DIRS})
 
 
@@ -27,11 +30,13 @@ set(SOURCE_FILES
 		shaders.cpp
 		shaders.h
 		constants.h
-		pipeline.cpp pipeline.h Browser.cpp Browser.h)
+		pipeline.cpp pipeline.h Browser.cpp Browser.h VideoPlayer.cpp VideoPlayer.h)
 
 add_executable(demo ${SOURCE_FILES})
 target_link_libraries(demo stdc++fs ${GLEW_LIBRARIES} ${SDL2_LIBRARY} ${OPENGL_LIBRARIES}
-                                    ${OPENVR_LIBRARIES} ${OPENHMD_LIBRARIES} CGJEngine)
+                                    ${OPENVR_LIBRARIES} ${OPENHMD_LIBRARIES}
+		                            ${GST_LIBRARIES} ${GSTVIDEO_LIBRARIES} ${GSTGL_LIBRARIES}
+									CGJEngine)
 
 add_custom_command(TARGET demo POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory

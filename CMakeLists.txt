@@ -13,6 +13,7 @@ list(APPEND CMAKE_MODULE_PATH
 
 set(OpenGL_GL_PREFERENCE GLVND)
 
+find_package(PkgConfig REQUIRED)
 find_package(GLEW REQUIRED)
 #find_package(GLUT REQUIRED)
 find_package(SDL2 REQUIRED)
@@ -68,6 +69,10 @@ else(OPENHMD_LIBRARIES-NOTFOUND)
     message(STATUS "Using openhmd")
     add_definitions(-DOPENHMD)
 endif(OPENHMD_LIBRARIES-NOTFOUND)
+
+pkg_check_modules(GST REQUIRED gstreamer-1.0)
+pkg_check_modules(GSTVIDEO REQUIRED gstreamer-video-1.0)
+pkg_check_modules(GSTGL REQUIRED gstreamer-gl-1.0)
 
 
 if( MSVC )
