@@ -35,10 +35,13 @@ void Browser::init(const std::string &filename) {
         directory = filePath;
     }
 
-    for (const auto &entry : std::filesystem::directory_iterator(directory))
-        if (FreeImage_GetFileType(entry.path().string().c_str(), 0) != FIF_UNKNOWN)
-            _files.insert(_files.end(), entry.path());
+    for (const auto &entry : std::filesystem::directory_iterator(directory)) {
 
+        std::string extension = entry.path().string().substr(entry.path().string().find_last_of('.')+1);
+        if (FreeImage_GetFileType(entry.path().string().c_str(), 0) != FIF_UNKNOWN ||
+            (extension == "mp4"))
+            _files.insert(_files.end(), entry.path());
+    }
     _files.sort();
     _current = 0;
     if(filePath.has_extension()) {
@@ -77,8 +80,8 @@ std::list<std::filesystem::path>::iterator Browser::rrPrevIt() {
     return std::prev(_it);
 }
 
-void Browser::bindTexture() {
-    _currentMedia->bindTexture();
+bool Browser::bindTexture() {
+    return _currentMedia->bindTexture();
 }
 
 void Browser::releaseTexture() {

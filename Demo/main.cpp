@@ -31,6 +31,7 @@ int WinX = WIN_X;
 int WinY = WIN_Y;
 SDL_Window* WindowHandle = nullptr;
 unsigned int FrameCount = 0;
+float FPS = 60.0f;
 int inVR = 0;
 bool running = true;
 
@@ -89,11 +90,15 @@ void update(int dt){
 	scene->update(dt);
 }
 
-void timer(int value){
+void CaptionTimer(){
 	std::ostringstream oss;
-	oss << Browser::getInstance()->getCurrentName() << ": " << FrameCount << " FPS";
+	oss << Browser::getInstance()->getCurrentName() << ": " << FPS << " FPS";
 	std::string s = oss.str();
 	SDL_SetWindowTitle(WindowHandle, s.c_str());
+}
+
+void FPSTimer(){
+	FPS = FrameCount;
 	FrameCount = 0;
 }
 
@@ -103,11 +108,17 @@ void idle(){
     int timeDelta = (int)(currentTime-lastTime);
     lastTime = currentTime;
 
-    static int timer1 = 100;
-    timer1 -= timeDelta;
-    if(timer1 <= 0){
-    	timer1 = 100;
-    	timer(0);
+    static int capTimer = 100;
+    static int fpsTimer = 1000;
+    capTimer -= timeDelta;
+    fpsTimer -= timeDelta;
+    if(capTimer <= 0){
+    	capTimer = 100;
+    	CaptionTimer();
+    }
+    if(fpsTimer <= 0){
+    	fpsTimer = 1000;
+    	FPSTimer();
     }
 
     update(timeDelta);

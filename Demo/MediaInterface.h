@@ -6,12 +6,13 @@
 #define PVIEWER_MEDIAINTERFACE_H
 
 #include <string>
+#include "VideoPlayer.h"
 
 class MediaInterface {
 public:
     virtual void load() = 0;
     virtual void unload() = 0;
-    virtual void bindTexture() = 0;
+    virtual bool bindTexture() = 0;
     virtual void releaseTexture() = 0;
     virtual int getHeight() = 0;
     virtual int getWidth() = 0;
@@ -27,7 +28,23 @@ public:
     ~Image() = default;
     void load() final;
     void unload() final;
-    void bindTexture() final;
+    bool bindTexture() final;
+    void releaseTexture() final;
+    int getHeight() final;
+    int getWidth() final;
+
+};
+
+class Video : public MediaInterface{
+private:
+    std::string _filename;
+    VideoPlayer* _vp;
+public:
+    Video(const std::string& filename);
+    ~Video() = default;
+    void load() final;
+    void unload() final;
+    bool bindTexture() final;
     void releaseTexture() final;
     int getHeight() final;
     int getWidth() final;

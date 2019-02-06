@@ -32,7 +32,7 @@ public:
 
     void init(const std::string& filename);
 
-    void bindTexture();
+    bool bindTexture();
     void releaseTexture();
     int getCurrentWidth();
     int getCurrentHeight();

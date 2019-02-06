@@ -20,6 +20,7 @@ extern "C" {
 }
 
 #include <sstream>
+#include <iostream>
 
 //----------------Singleton------------------
 VideoPlayer* VideoPlayer::_ourInstance = nullptr;
@@ -31,7 +32,7 @@ GAsyncQueue *VideoPlayer::_queue_input_buf;
 GAsyncQueue *VideoPlayer::_queue_output_buf;
 GstVideoInfo VideoPlayer::_info;
 GLuint VideoPlayer::_texture;
-GstBuffer* VideoPlayer::_buffer;
+GstBuffer* VideoPlayer::_buffer = nullptr;
 
 //----------------Callbacks------------------
 void VideoPlayer::on_gst_buffer (GstElement * fakesink, GstBuffer * buf, GstPad * pad, gpointer data) {
@@ -62,7 +63,7 @@ static gboolean sync_bus_call (GstBus * bus, GstMessage * msg, gpointer data){
             const gchar *context_type;
 
             gst_message_parse_context_type(msg, &context_type);
-            g_print("got need context %s\n", context_type);
+            //g_print("got need context %s\n", context_type);
 
             if (g_strcmp0(context_type, GST_GL_DISPLAY_CONTEXT_TYPE) == 0) {
                 GstContext *display_context = gst_context_new(GST_GL_DISPLAY_CONTEXT_TYPE, TRUE);
@@ -195,6 +196,7 @@ VideoPlayer::VideoPlayer(Display *sdlDisplay, Window sdlWindow, GLXContext glxCo
     //Safe defaults
     _width = 4;
     _height = 4;
+    _hold = false;
 }
 
 VideoPlayer::~VideoPlayer() {
@@ -233,9 +235,12 @@ void VideoPlayer::loadFile(std::string &filename) {
 }
 
 void VideoPlayer::bindTexture() {
-    _buffer = (GstBuffer *) g_async_queue_pop (_queue_output_buf);
+    if(g_async_queue_length(_queue_input_buf) > 0 || !_buffer) {
+        if(_buffer)
+            g_async_queue_push(_queue_output_buf, _buffer);
+        _buffer = (GstBuffer *) g_async_queue_pop(_queue_input_buf);
+    }
     GstVideoFrame v_frame;
-
     if (!gst_video_frame_map(&v_frame, &_info, _buffer, (GstMapFlags)(GST_MAP_READ | GST_MAP_GL))) {
         g_warning ("Failed to map the video buffer");
     }else{
@@ -244,11 +249,15 @@ void VideoPlayer::bindTexture() {
         _height = _info.height;
         glBindTexture(GL_TEXTURE_2D, _texture);
         gst_video_frame_unmap(&v_frame);
+
     }
 }
 
 void VideoPlayer::releaseTexture() {
-    g_async_queue_push (_queue_output_buf, _buffer);
+    if(g_async_queue_length(_queue_input_buf) > 0) {
+        g_async_queue_push(_queue_output_buf, _buffer);
+        _buffer = nullptr;
+    }
 }
 
 int VideoPlayer::getWidth() {

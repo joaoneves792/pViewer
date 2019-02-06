@@ -14,14 +14,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9cf35d90-cffa-4d2f-b5b7-65183d1c73b8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Demo/MediaInterface.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Demo/MediaInterface.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Demo/Browser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Demo/Browser.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Demo/Browser.h" beforeDir="false" afterPath="$PROJECT_DIR$/Demo/Browser.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Demo/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Demo/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Demo/MediaInterface.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Demo/MediaInterface.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Demo/MediaInterface.h" beforeDir="false" afterPath="$PROJECT_DIR$/Demo/MediaInterface.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Demo/VideoPlayer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Demo/VideoPlayer.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Demo/VideoPlayer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Demo/VideoPlayer.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Demo/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Demo/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Demo/res/shaders/2Df.glsl" beforeDir="false" afterPath="$PROJECT_DIR$/Demo/res/shaders/2Df.glsl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Demo/scene.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Demo/scene.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,12 +38,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Demo/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="292" selection-start-line="292" selection-end-line="292" />
+            <state relative-caret-position="150">
+              <caret line="95" column="30" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
                 <element signature="e#70#89#0" expanded="true" />
-                <element signature="e#183#199#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -50,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Demo/scene.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1095">
-              <caret line="73" column="60" selection-start-line="73" selection-start-column="60" selection-end-line="73" selection-end-column="60" />
+            <state relative-caret-position="329">
+              <caret line="77" column="48" selection-start-line="77" selection-start-column="48" selection-end-line="77" selection-end-column="48" />
               <folding>
                 <element signature="e#39#57#0" expanded="true" />
               </folding>
@@ -60,19 +61,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../tmp2/gstreamer/main4.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="124" selection-start-line="124" selection-end-line="124" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Demo/VideoPlayer.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
-              <caret line="69" column="20" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
+            <state relative-caret-position="405">
+              <caret line="50" column="15" selection-start-line="50" selection-start-column="15" selection-end-line="50" selection-end-column="15" />
               <folding>
                 <element signature="e#143#165#0" expanded="true" />
                 <element signature="e#267#287#0" expanded="true" />
@@ -84,13 +76,32 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Demo/VideoPlayer.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="242" column="74" selection-start-line="242" selection-start-column="74" selection-end-line="242" selection-end-column="74" />
+            <state relative-caret-position="453">
+              <caret line="250" selection-start-line="250" selection-end-line="250" />
               <folding>
                 <element signature="e#37#61#0" expanded="true" />
                 <element signature="e#107#129#0" expanded="true" />
                 <element signature="e#231#251#0" expanded="true" />
+                <element signature="e#337#355#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Demo/res/shaders/2Df.glsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="29" column="52" selection-start-line="29" selection-start-column="52" selection-end-line="29" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Demo/res/shaders/quadv.glsl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" selection-start-line="9" selection-end-line="9" />
             </state>
           </provider>
         </entry>
@@ -98,8 +109,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Demo/Browser.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="179">
-              <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
+            <state relative-caret-position="209">
+              <caret line="34" column="23" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
               <folding>
                 <element signature="e#92#107#0" expanded="true" />
               </folding>
@@ -110,8 +121,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Demo/Browser.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="284">
-              <caret line="61" selection-start-line="61" selection-end-line="61" />
+            <state relative-caret-position="419">
+              <caret line="116" column="4" selection-start-line="116" selection-start-column="4" selection-end-line="116" selection-end-column="4" />
               <folding>
                 <element signature="e#38#58#0" expanded="true" />
               </folding>
@@ -122,8 +133,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Demo/MediaInterface.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="36" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
+            <state relative-caret-position="119">
+              <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
               <folding>
                 <element signature="e#37#59#0" expanded="true" />
               </folding>
@@ -134,17 +145,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Demo/MediaInterface.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CGJEngine/headers/Cameras/VRCamera.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="35" selection-start-line="35" selection-end-line="35" />
+            <state relative-caret-position="359">
+              <caret line="41" column="7" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
+              <folding>
+                <element signature="e#104#121#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -169,7 +174,6 @@
         <option value="$PROJECT_DIR$/CGJEngine/headers/Meshes/H3DMesh.h" />
         <option value="$PROJECT_DIR$/CGJEngine/Meshes/H3DMesh.cpp" />
         <option value="$PROJECT_DIR$/Demo/res/shaders/quadv.glsl" />
-        <option value="$PROJECT_DIR$/Demo/res/shaders/2Df.glsl" />
         <option value="$PROJECT_DIR$/CGJEngine/Cameras/VRCamera.cpp" />
         <option value="$PROJECT_DIR$/CGJEngine/headers/Cameras/OpenVRCamera.h" />
         <option value="$PROJECT_DIR$/CGJEngine/Cameras/OpenVRCamera.cpp" />
@@ -188,22 +192,23 @@
         <option value="$PROJECT_DIR$/CGJEngine/headers/InputManager.h" />
         <option value="$PROJECT_DIR$/Demo/constants.h" />
         <option value="$PROJECT_DIR$/Demo/actions.cpp" />
-        <option value="$PROJECT_DIR$/Demo/scene.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/Demo/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/../tmp2/gstreamer/main4.c" />
         <option value="$PROJECT_DIR$/Demo/main.cpp" />
         <option value="$PROJECT_DIR$/Demo/VideoPlayer.h" />
         <option value="$PROJECT_DIR$/Demo/VideoPlayer.cpp" />
-        <option value="$PROJECT_DIR$/Demo/Browser.h" />
         <option value="$PROJECT_DIR$/Demo/MediaInterface.h" />
         <option value="$PROJECT_DIR$/Demo/MediaInterface.cpp" />
+        <option value="$PROJECT_DIR$/Demo/Browser.h" />
+        <option value="$PROJECT_DIR$/Demo/scene.cpp" />
+        <option value="$PROJECT_DIR$/Demo/res/shaders/2Df.glsl" />
         <option value="$PROJECT_DIR$/Demo/Browser.cpp" />
       </list>
     </option>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="30" />
     <option name="width" value="1930" />
     <option name="height" value="1023" />
@@ -214,7 +219,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -245,10 +249,24 @@
               <item name="pViewer" type="462c0819:PsiDirectoryNode" />
               <item name="Demo" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="pViewer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pViewer" type="462c0819:PsiDirectoryNode" />
+              <item name="Demo" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="pViewer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="pViewer" type="462c0819:PsiDirectoryNode" />
+              <item name="Demo" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+              <item name="shaders" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -298,7 +316,7 @@
         <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_cp" />
       </method>
     </configuration>
-    <configuration name="demo" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-f $USER_HOME$/Desktop/pics/DSC00403.jpg" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pViewer" TARGET_NAME="demo" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pViewer" RUN_TARGET_NAME="demo">
+    <configuration name="demo" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-f $USER_HOME$/Desktop/pics/display.mp4" PASS_PARENT_ENVS_2="true" PROJECT_NAME="pViewer" TARGET_NAME="demo" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="pViewer" RUN_TARGET_NAME="demo">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
         <option name="ToolBeforeRunTask" enabled="true" actionId="Tool_External Tools_cp" />
@@ -339,29 +357,32 @@
       <workItem from="1549192204731" duration="3275000" />
       <workItem from="1549271789951" duration="4111000" />
       <workItem from="1549353301485" duration="947000" />
-      <workItem from="1549354258066" duration="23218000" />
+      <workItem from="1549354258066" duration="23246000" />
+      <workItem from="1549390317718" duration="4000" />
+      <workItem from="1549395660308" duration="1454000" />
+      <workItem from="1549445214385" duration="4374000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="96839000" />
+    <option name="totallyTimeSpent" value="102699000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="30" width="1930" height="1023" extended-state="0" />
+    <frame x="0" y="30" width="1930" height="1023" extended-state="1" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.29659212" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30617678" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3287827" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3287827" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3287827" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997722" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Messages" order="8" weight="0.3287827" />
+      <window_info active="true" anchor="bottom" id="Messages" order="8" visible="true" weight="0.3287827" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32992035" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" show_stripe_button="false" />
@@ -423,13 +444,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Demo/res/shaders/2Df.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CGJEngine/headers/Cameras/Camera.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-360" />
@@ -485,13 +499,6 @@
           <folding>
             <element signature="e#114#143#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Demo/res/shaders/quadv.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
@@ -657,16 +664,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Demo/scene.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1095">
-          <caret line="73" column="60" selection-start-line="73" selection-start-column="60" selection-end-line="73" selection-end-column="60" />
-          <folding>
-            <element signature="e#39#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Demo/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="397">
@@ -681,29 +678,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Demo/main.cpp">
+    <entry file="file://$PROJECT_DIR$/../tmp2/gstreamer/main4.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="292" selection-start-line="292" selection-end-line="292" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#70#89#0" expanded="true" />
-            <element signature="e#183#199#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1860">
+          <caret line="124" selection-start-line="124" selection-end-line="124" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../tmp2/gstreamer/main4.c">
+    <entry file="file://$PROJECT_DIR$/CGJEngine/headers/Cameras/VRCamera.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="124" selection-start-line="124" selection-end-line="124" />
+        <state relative-caret-position="525">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Demo/main.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="95" column="30" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#70#89#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Demo/VideoPlayer.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="69" column="20" selection-start-line="69" selection-start-column="20" selection-end-line="69" selection-end-column="20" />
+        <state relative-caret-position="405">
+          <caret line="50" column="15" selection-start-line="50" selection-start-column="15" selection-end-line="50" selection-end-column="15" />
           <folding>
             <element signature="e#143#165#0" expanded="true" />
             <element signature="e#267#287#0" expanded="true" />
@@ -713,44 +716,65 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Demo/VideoPlayer.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="242" column="74" selection-start-line="242" selection-start-column="74" selection-end-line="242" selection-end-column="74" />
+        <state relative-caret-position="453">
+          <caret line="250" selection-start-line="250" selection-end-line="250" />
           <folding>
             <element signature="e#37#61#0" expanded="true" />
             <element signature="e#107#129#0" expanded="true" />
             <element signature="e#231#251#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CGJEngine/headers/Cameras/VRCamera.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Demo/Browser.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
-          <folding>
-            <element signature="e#92#107#0" expanded="true" />
+            <element signature="e#337#355#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Demo/MediaInterface.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+        <state relative-caret-position="359">
+          <caret line="41" column="7" selection-start-line="41" selection-start-column="7" selection-end-line="41" selection-end-column="7" />
+          <folding>
+            <element signature="e#104#121#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Demo/Browser.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="34" column="23" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
+          <folding>
+            <element signature="e#92#107#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Demo/scene.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="77" column="48" selection-start-line="77" selection-start-column="48" selection-end-line="77" selection-end-column="48" />
+          <folding>
+            <element signature="e#39#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Demo/res/shaders/quadv.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Demo/res/shaders/2Df.glsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="52" selection-start-line="29" selection-start-column="52" selection-end-line="29" selection-end-column="52" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Demo/MediaInterface.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="36" selection-start-line="12" selection-start-column="36" selection-end-line="12" selection-end-column="36" />
+        <state relative-caret-position="119">
+          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
           <folding>
             <element signature="e#37#59#0" expanded="true" />
           </folding>
@@ -759,8 +783,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Demo/Browser.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="61" selection-start-line="61" selection-end-line="61" />
+        <state relative-caret-position="419">
+          <caret line="116" column="4" selection-start-line="116" selection-start-column="4" selection-end-line="116" selection-end-column="4" />
           <folding>
             <element signature="e#38#58#0" expanded="true" />
           </folding>

@@ -66,14 +66,16 @@ void loadInput(const std::string& filename){
 
     GLint widthLoc = ResourceManager::getInstance()->getShader(QUAD_SHADER)->getUniformLocation("texWidth");
     GLint heightLoc = ResourceManager::getInstance()->getShader(QUAD_SHADER)->getUniformLocation("texHeight");
+    GLint flipLoc = ResourceManager::getInstance()->getShader(QUAD_SHADER)->getUniformLocation("flip");
 
     quad->setPreDraw([=](){
         glActiveTexture(GL_TEXTURE0);
-        browser->bindTexture();
+        bool flip = browser->bindTexture();
         auto texWidth = (float)(browser->getCurrentWidth());
         auto texHeight = (float)(browser->getCurrentHeight());
         glUniform1f(widthLoc, texWidth);
         glUniform1f(heightLoc, texHeight);
+        glUniform1f(flipLoc, (flip)?-1.0f:1.0f);
     });
 
     quad->setPostDraw([=](){

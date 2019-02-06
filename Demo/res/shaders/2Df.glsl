@@ -6,12 +6,14 @@ uniform sampler2D renderedTexture;
 
 uniform float texWidth;
 uniform float texHeight;
+uniform float flip;
 
 out vec4 color;
 
 #define vRatio (16.0f/9.0f)
 
 void main() {
+
     const float ratio1 = vRatio;
     float ratio2 = texWidth / texHeight;
     float scaleRatio;
@@ -25,7 +27,8 @@ void main() {
     float w3 = texWidth * scaleRatio;
     float h3 = texHeight * scaleRatio;
 
-    vec2 centeredUV = uv - vec2(0.5-((w3/vRatio)/2.0f) , (0.5-(h3/2.0f)));
+    vec2 correctUV = (flip < 0)?vec2(uv.x, -uv.y+1.0f):uv;
+    vec2 centeredUV = correctUV - vec2(0.5-((w3/vRatio)/2.0f) , (0.5-(h3/2.0f)));
 
     vec2 adjustedUV = centeredUV * vec2(vRatio/w3, 1.0f/h3);
 
