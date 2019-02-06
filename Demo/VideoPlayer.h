@@ -64,6 +64,11 @@ public:
     void bindTexture();
     void releaseTexture();
 
+    long getDuration();
+    long getCurrentTime();
+    bool seekForward();
+    bool seekBackward();
+
     GstGLDisplay* getDisplay();
     GstGLContext* getContext();
 

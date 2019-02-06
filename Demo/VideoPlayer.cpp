@@ -267,3 +267,35 @@ int VideoPlayer::getWidth() {
 int VideoPlayer::getHeight() {
     return _height;
 }
+
+long VideoPlayer::getDuration() {
+    gint64 dur = 0;
+    gst_element_query_duration(_pipeline, GST_FORMAT_TIME, &dur);
+    return (long)dur;
+}
+
+long VideoPlayer::getCurrentTime() {
+    gint64 pos = 0;
+    gst_element_query_position (_pipeline, GST_FORMAT_TIME, &pos);
+    return (long)pos;
+}
+
+bool VideoPlayer::seekForward() {
+    auto pos = (gint64)getCurrentTime();
+    pos += 5*GST_SECOND;
+    if(pos > getDuration())
+        return false;
+    return (gst_element_seek (_pipeline, 1.0, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH,
+                             GST_SEEK_TYPE_SET, pos,
+                             GST_SEEK_TYPE_NONE, GST_CLOCK_TIME_NONE) == TRUE);
+}
+
+bool VideoPlayer::seekBackward() {
+    auto pos = (gint64)getCurrentTime();
+    pos -= 5*GST_SECOND;
+    if(pos < 0)
+        return false;
+    return (gst_element_seek (_pipeline, 1.0, GST_FORMAT_TIME, GST_SEEK_FLAG_FLUSH,
+                             GST_SEEK_TYPE_SET, pos,
+                             GST_SEEK_TYPE_NONE, GST_CLOCK_TIME_NONE) == TRUE);
+}

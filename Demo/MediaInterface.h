@@ -18,6 +18,7 @@ public:
     virtual int getHeight() = 0;
     virtual int getWidth() = 0;
     virtual ~MediaInterface() = 0;
+    virtual bool seek(int forward) = 0;
 };
 
 class Image : public MediaInterface{
@@ -33,6 +34,7 @@ public:
     void releaseTexture() final;
     int getHeight() final;
     int getWidth() final;
+    bool seek(int forward) final;
 
 };
 
@@ -49,6 +51,7 @@ public:
     void releaseTexture() final;
     int getHeight() final;
     int getWidth() final;
+    bool seek(int forward) final;
 
 };
 

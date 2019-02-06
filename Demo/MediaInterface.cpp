@@ -45,6 +45,10 @@ void Image::releaseTexture() {
     //Empty
 }
 
+bool Image::seek(int forward) {
+    return false;
+}
+
 //------------Video-----------------------
 Video::Video(const std::string &filename) {
     _vp = VideoPlayer::getInstance();
@@ -70,4 +74,11 @@ bool Video::bindTexture() {
 }
 void Video::releaseTexture() {
     _vp->releaseTexture();
+}
+bool Video::seek(int forward) {
+    if(forward > 0){
+        return _vp->seekForward();
+    }else{
+        return _vp->seekBackward();
+    }
 }

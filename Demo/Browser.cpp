@@ -99,6 +99,8 @@ int Browser::getCurrentHeight() {
 }
 
 void Browser::next() {
+    if(_currentMedia->seek(1))
+        return;
     _currentMedia->unload();
     delete _currentMedia;
     _it = rrNextIt();
@@ -107,6 +109,8 @@ void Browser::next() {
 }
 
 void Browser::prev(){
+    if(_currentMedia->seek(-1))
+        return;
     _currentMedia->unload();
     delete _currentMedia;
     _it = rrPrevIt();
