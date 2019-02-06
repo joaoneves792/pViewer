@@ -209,14 +209,24 @@ VideoPlayer::~VideoPlayer() {
 
 void VideoPlayer::pause() {
     gst_element_set_state (GST_ELEMENT (_pipeline), GST_STATE_PAUSED);
+    _paused = true;
 }
 
 void VideoPlayer::play() {
     gst_element_set_state (GST_ELEMENT (_pipeline), GST_STATE_PLAYING);
+    _paused = false;
 }
 
 void VideoPlayer::stop() {
     gst_element_set_state (GST_ELEMENT (_pipeline), GST_STATE_NULL);
+    _paused = true;
+}
+
+void VideoPlayer::togglePause() {
+    if(_paused)
+        play();
+    else
+        pause();
 }
 
 GstGLContext* VideoPlayer::getContext() {

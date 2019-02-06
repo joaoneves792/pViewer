@@ -49,6 +49,7 @@ private:
     int _width;
     int _height;
     bool _hold;
+    bool _paused;
 private:
     VideoPlayer(Display* sdlDisplay, Window sdlWindow, GLXContext glxContext);
     ~VideoPlayer();
@@ -68,6 +69,8 @@ public:
     long getCurrentTime();
     bool seekForward();
     bool seekBackward();
+
+    void togglePause();
 
     GstGLDisplay* getDisplay();
     GstGLContext* getContext();

@@ -80,4 +80,8 @@ void setupActions() {
     im->addSpecialKeyActionOnce(PVIEWER_MOUSE_WHEEL_DOWN, [=](){
         Browser::getInstance()->prev();
     });
+    im->addKeyActionOnce('x', [=](){
+       static VideoPlayer* vp = VideoPlayer::getInstance();
+       vp->togglePause();
+    });
 }
