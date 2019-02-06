@@ -48,8 +48,8 @@ private:
     //Video
     int _width;
     int _height;
-    bool _hold;
     bool _paused;
+    bool _stopped;
 private:
     VideoPlayer(Display* sdlDisplay, Window sdlWindow, GLXContext glxContext);
     ~VideoPlayer();

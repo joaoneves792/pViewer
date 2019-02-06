@@ -196,7 +196,7 @@ VideoPlayer::VideoPlayer(Display *sdlDisplay, Window sdlWindow, GLXContext glxCo
     //Safe defaults
     _width = 4;
     _height = 4;
-    _hold = false;
+    _stopped = true;
 }
 
 VideoPlayer::~VideoPlayer() {
@@ -215,14 +215,17 @@ void VideoPlayer::pause() {
 void VideoPlayer::play() {
     gst_element_set_state (GST_ELEMENT (_pipeline), GST_STATE_PLAYING);
     _paused = false;
+    _stopped = false;
 }
 
 void VideoPlayer::stop() {
     gst_element_set_state (GST_ELEMENT (_pipeline), GST_STATE_NULL);
-    _paused = true;
+    _stopped = true;
 }
 
 void VideoPlayer::togglePause() {
+    if(_stopped)
+        return;
     if(_paused)
         play();
     else
