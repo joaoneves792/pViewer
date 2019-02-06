@@ -8,7 +8,8 @@
 #include "CGJengine.h"
 
 void setupPipeline();
-void executePipeline(FrameBuffer* targetFramebuffer);
+void executePipeline();
+void executeVRPipeline();
 
 
 #endif //CGJDEMO_PIPELINE_H

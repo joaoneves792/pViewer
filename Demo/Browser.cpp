@@ -14,7 +14,6 @@
 #include <FreeImage.h>
 
 Browser* Browser::_ourInstance = nullptr;
-std::regex video_extensions = std::regex(".(mp4|flv|avi|mpg|mpeg|wmv)");
 
 Browser* Browser::getInstance() {
     if(_ourInstance == nullptr){
@@ -31,6 +30,7 @@ void Browser::deleteInstance() {
 void Browser::init(const std::string &filename) {
     std::filesystem::path filePath = filename;
     std::filesystem::path directory;
+    std::regex video_extensions = std::regex(".(mp4|flv|avi|mpg|mpeg|wmv)");
     if(filePath.has_extension()) {
         directory = filePath.parent_path();
     }else{
@@ -38,9 +38,8 @@ void Browser::init(const std::string &filename) {
     }
 
     for (const auto &entry : std::filesystem::directory_iterator(directory)) {
-
         std::string extension = entry.path().extension().string();
-        if (FreeImage_GetFileType(entry.path().string().c_str(), 0) != FIF_UNKNOWN ||
+        if ((FreeImage_GetFileType(entry.path().string().c_str(), 0) != FIF_UNKNOWN) ||
             (std::regex_match(extension, video_extensions)))
             _files.insert(_files.end(), entry.path());
     }

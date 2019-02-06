@@ -43,14 +43,11 @@ void setupPipeline(){
     renderPipeline->addChild(fxaa);
 }
 
-void executePipeline(FrameBuffer* targetFramebuffer){
+void executePipeline(){
     static SceneGraph* scene = ResourceManager::getInstance()->getScene(SCENE);
     static SceneGraph* pipeline = ResourceManager::getInstance()->getScene(PIPELINE);
 
     static ColorTextureFrameBuffer* sideBuffer1 = (ColorTextureFrameBuffer*)ResourceManager::getInstance()->getFrameBuffer(SIDE_FBO1);
-
-    /*static Shader* blit = ResourceManager::getInstance()->getShader(BLIT_SHADER);
-    static GLint renderTargetLoc = blit->getUniformLocation("renderTarget");*/
 
     sideBuffer1->bind();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -59,10 +56,40 @@ void executePipeline(FrameBuffer* targetFramebuffer){
     /*Apply FXAA and render to screen*/
     glActiveTexture(GL_TEXTURE0);
     sideBuffer1->bindTexture();
-    if(!targetFramebuffer)
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    else
-        targetFramebuffer->bind();
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    pipeline->draw(FXAA_LEVEL);
+}
+
+void executeVRPipeline(){
+    static SceneGraph* scene = ResourceManager::getInstance()->getScene(SCENE);
+    static SceneGraph* pipeline = ResourceManager::getInstance()->getScene(PIPELINE);
+
+    static ColorTextureFrameBuffer* sideBuffer1 = (ColorTextureFrameBuffer*)ResourceManager::getInstance()->getFrameBuffer(SIDE_FBO1);
+
+    static VRCamera* cam = (VRCamera*)ResourceManager::getInstance()->getCamera(SPHERE_CAM);
+    static ColorTextureFrameBuffer* leftFBO =
+            (ColorTextureFrameBuffer*)ResourceManager::getInstance()->getFrameBuffer(LEFT_FBO_RENDER);
+    static ColorTextureFrameBuffer* rightFBO =
+            (ColorTextureFrameBuffer*)ResourceManager::getInstance()->getFrameBuffer(RIGHT_FBO_RENDER);
+
+    cam->setCurrentEye(EYE_LEFT);
+    leftFBO->bind();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    scene->draw();
+
+    cam->setCurrentEye(EYE_RIGHT);
+    rightFBO->bind();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    scene->draw();
+
+    sideBuffer1->bind();
+    cam->submit(leftFBO, rightFBO);
+
+    /*Apply FXAA and render to screen*/
+    glActiveTexture(GL_TEXTURE0);
+    sideBuffer1->bindTexture();
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     pipeline->draw(FXAA_LEVEL);
 }

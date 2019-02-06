@@ -53,26 +53,10 @@ void cleanup(){
 
 void display(){
 	++FrameCount;
-
 	if(inVR){
-		static VRCamera* cam = (VRCamera*)ResourceManager::getInstance()->getCamera(SPHERE_CAM);
-		static ColorTextureFrameBuffer* leftFBO =
-				(ColorTextureFrameBuffer*)ResourceManager::getInstance()->getFrameBuffer(LEFT_FBO_RENDER);
-		static ColorTextureFrameBuffer* rightFBO =
-				(ColorTextureFrameBuffer*)ResourceManager::getInstance()->getFrameBuffer(RIGHT_FBO_RENDER);
-
-		cam->updatePose();
-		cam->setCurrentEye(EYE_LEFT);
-        executePipeline(leftFBO);
-		cam->setCurrentEye(EYE_RIGHT);
-		executePipeline(rightFBO);
-
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		cam->submit(leftFBO, rightFBO);
-        //executePipeline(nullptr);
-
+		executeVRPipeline();
 	}else {
-        executePipeline(nullptr);
+        executePipeline();
     }
 	checkOpenGLError("ERROR: Could not draw scene.");
 	SDL_GL_SwapWindow(WindowHandle);
@@ -86,7 +70,10 @@ void display(){
 
 void update(int dt){
 	static SceneGraph* scene = ResourceManager::getInstance()->getScene(SCENE);
+	static VRCamera* cam = (VRCamera*)ResourceManager::getInstance()->getCamera(SPHERE_CAM);
 	InputManager::update();
+	if(inVR)
+	    cam->updatePose();
 	scene->update(dt);
 }
 
@@ -253,7 +240,7 @@ void setupVR(){
 	ResourceManager::Factory::createColorTextureFrameBuffer(RIGHT_FBO_RENDER,
 			cam->getRecommendedWidth(), cam->getRecommendedHeight());
 
-	resizeFBOs(cam->getRecommendedWidth(), cam->getRecommendedHeight());
+	resizeFBOs(cam->getRecommendedWidth()*2, cam->getRecommendedHeight());
 }
 
 void init(int argc, char* argv[]){

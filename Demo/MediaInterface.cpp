@@ -9,9 +9,9 @@
 #include "VideoPlayer.h"
 
 
-extern std::regex video_extensions;
 
 MediaInterface* MediaInterfaceFactory(const std::filesystem::path &path){
+    std::regex video_extensions = std::regex(".(mp4|flv|avi|mpg|mpeg|wmv)");
     if (FreeImage_GetFileType(path.string().c_str(), 0) != FIF_UNKNOWN)
         return new Image(path.string());
     if(std::regex_match(path.extension().string(), video_extensions))
