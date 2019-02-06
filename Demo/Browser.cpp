@@ -10,9 +10,11 @@
 #include <sstream>
 #include <iostream>
 #include <memory>
+#include <regex>
 #include <FreeImage.h>
 
 Browser* Browser::_ourInstance = nullptr;
+std::regex video_extensions = std::regex(".(mp4|flv|avi|mpg|mpeg|wmv)");
 
 Browser* Browser::getInstance() {
     if(_ourInstance == nullptr){
@@ -37,9 +39,9 @@ void Browser::init(const std::string &filename) {
 
     for (const auto &entry : std::filesystem::directory_iterator(directory)) {
 
-        std::string extension = entry.path().string().substr(entry.path().string().find_last_of('.')+1);
+        std::string extension = entry.path().extension().string();
         if (FreeImage_GetFileType(entry.path().string().c_str(), 0) != FIF_UNKNOWN ||
-            (extension == "mp4"))
+            (std::regex_match(extension, video_extensions)))
             _files.insert(_files.end(), entry.path());
     }
     _files.sort();
@@ -58,7 +60,7 @@ void Browser::init(const std::string &filename) {
     }
     _total = _files.size();
 
-    _currentMedia = MediaInterfaceFactory(_it->string());
+    _currentMedia = MediaInterfaceFactory(*_it);
     _currentMedia->load();
 }
 
@@ -100,7 +102,7 @@ void Browser::next() {
     _currentMedia->unload();
     delete _currentMedia;
     _it = rrNextIt();
-    _currentMedia = MediaInterfaceFactory(_it->string());
+    _currentMedia = MediaInterfaceFactory(*_it);
     _currentMedia->load();
 }
 
@@ -108,7 +110,7 @@ void Browser::prev(){
     _currentMedia->unload();
     delete _currentMedia;
     _it = rrPrevIt();
-    _currentMedia = MediaInterfaceFactory(_it->string());
+    _currentMedia = MediaInterfaceFactory(*_it);
     _currentMedia->load();
 }
 

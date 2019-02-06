@@ -300,7 +300,7 @@ void init(int argc, char* argv[]){
 	Window sdl_win = info.info.x11.window;
 	GLXContext sdl_gl_context = glXGetCurrentContext ();
 
-	VideoPlayer* vp = VideoPlayer::getInstance(sdl_display, sdl_win, sdl_gl_context);
+	VideoPlayer::getInstance(sdl_display, sdl_win, sdl_gl_context);
 
 	loadInput(filename);
 

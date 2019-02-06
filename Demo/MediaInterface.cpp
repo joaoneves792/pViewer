@@ -1,17 +1,21 @@
 //
 // Created by joao on 2/5/19.
 //
+#include <regex>
+#include <filesystem>
 
 #include <CGJengine.h>
 #include "MediaInterface.h"
 #include "VideoPlayer.h"
 
-MediaInterface* MediaInterfaceFactory(const std::string& filename){
-    if (FreeImage_GetFileType(filename.c_str(), 0) != FIF_UNKNOWN)
-        return new Image(filename);
-    std::string extension = filename.substr(filename.find_last_of('.')+1);
-    if(extension == "mp4")
-        return new Video(filename);
+
+extern std::regex video_extensions;
+
+MediaInterface* MediaInterfaceFactory(const std::filesystem::path &path){
+    if (FreeImage_GetFileType(path.string().c_str(), 0) != FIF_UNKNOWN)
+        return new Image(path.string());
+    if(std::regex_match(path.extension().string(), video_extensions))
+        return new Video(path.string());
     return nullptr;
 }
 MediaInterface::~MediaInterface() {}

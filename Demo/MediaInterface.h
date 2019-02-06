@@ -5,6 +5,7 @@
 #ifndef PVIEWER_MEDIAINTERFACE_H
 #define PVIEWER_MEDIAINTERFACE_H
 
+#include <filesystem>
 #include <string>
 #include "VideoPlayer.h"
 
@@ -51,6 +52,6 @@ public:
 
 };
 
-MediaInterface* MediaInterfaceFactory(const std::string& filename);
+MediaInterface* MediaInterfaceFactory(const std::filesystem::path& path);
 
 #endif //PVIEWER_MEDIAINTERFACE_H
