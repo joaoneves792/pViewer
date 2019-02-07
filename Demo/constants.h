@@ -45,6 +45,7 @@
 #define VOLUMETRIC_SHADER "volumetricShader"
 #define FLOOR_SHADER "floorShader"
 #define VRFXAP_SHADER "vrfxapshader"
+#define DEANA_SHADER "deanashader"
 
 /*Scenes*/
 #define SCENE "main"
@@ -66,11 +67,14 @@
 /*FBOs*/
 #define MAIN_FBO "main"
 #define SIDE_FBO1 "sidefbo1"
+#define SIDE_FBO1_R "sidefbo1r"
+#define SIDE_FBO1_L "sidefbo1l"
 #define SIDE_FBO2 "sidefbo2"
 #define SIDE_FBO3 "sidefbo3"
 #define SHADOW_FBO "shadowfbo"
 #define LEFT_FBO_RENDER "lefteyefboR"
 #define RIGHT_FBO_RENDER "righteyefboR"
+#define SPLIT_FBO "splitfbo"
 #define LEFT_FBO_DISPLAY "lefteyefboD"
 #define RIGHT_FBO_DISPLAY "righteyefboD"
 
@@ -101,6 +105,7 @@
 #define DISTANCE_HEAT "distanceheat"
 #define FRONT_HEAT "frontheat"
 #define REAR_HEAT "rearheat"
+#define DEANA_QUAD "deanaquad"
 
 
 /*Pipeline Stages*/
@@ -120,6 +125,8 @@
 #define VRFXAP_LEVEL (-9)
 #define VRFXAP "vrfxap"
 #define VOLUMETRIC_LEVEL (-8)
+#define SPLIT_LEVEL (-10)
+#define SPLIT "split"
 
 /*Misc constants*/
 #define PI 3.14159f

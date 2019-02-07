@@ -35,6 +35,8 @@ float FPS = 60.0f;
 int inVR = 0;
 bool running = true;
 
+void (*pipeline)() = &executePipeline;
+
 /*
 SDL_SysWMinfo info;
 Display *sdl_display = NULL;
@@ -53,11 +55,7 @@ void cleanup(){
 
 void display(){
 	++FrameCount;
-	if(inVR){
-		executeVRPipeline();
-	}else {
-        executePipeline();
-    }
+	(*pipeline)();
 	checkOpenGLError("ERROR: Could not draw scene.");
 	SDL_GL_SwapWindow(WindowHandle);
 
@@ -115,6 +113,8 @@ void idle(){
 void resizeFBOs(int w, int h){
     ResourceManager::getInstance()->getCamera(SPHERE_CAM)->resize(w, h);
     ResourceManager::getInstance()->getFrameBuffer(SIDE_FBO1)->resize(w, h);
+    ResourceManager::getInstance()->getFrameBuffer(SIDE_FBO1_R)->resize(w, h);
+    ResourceManager::getInstance()->getFrameBuffer(SIDE_FBO1_L)->resize(w, h);
 }
 void reshape(int w, int h){
     if(w <= 0 || h <= 0)
@@ -289,10 +289,11 @@ void init(int argc, char* argv[]){
 
 	VideoPlayer::getInstance(sdl_display, sdl_win, sdl_gl_context);
 
-	loadInput(filename);
+	Browser::getInstance()->init(filename);
 
 	if(inVR){
 		setupVR();
+		pipeline = &executeVRPipeline;
 	}
 	reshape(WinX, WinY);
 }

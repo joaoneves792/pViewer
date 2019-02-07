@@ -56,19 +56,12 @@ void setupScene(){
     quadNode->scale(ASPECT_RATIO, 1.0f, 1.0f);
     root->addChild(quadNode);
 
-}
-
-void loadInput(const std::string& filename){
-    static SceneNode* quad = ResourceManager::getInstance()->getScene(SCENE)->findNode(QUAD);
-    static Browser* browser = Browser::getInstance();
-
-    browser->init(filename);
-
     GLint widthLoc = ResourceManager::getInstance()->getShader(QUAD_SHADER)->getUniformLocation("texWidth");
     GLint heightLoc = ResourceManager::getInstance()->getShader(QUAD_SHADER)->getUniformLocation("texHeight");
     GLint flipLoc = ResourceManager::getInstance()->getShader(QUAD_SHADER)->getUniformLocation("flip");
 
-    quad->setPreDraw([=](){
+    Browser* browser = Browser::getInstance();
+    quadNode->setPreDraw([=](){
         glActiveTexture(GL_TEXTURE0);
         bool flip = browser->bindTexture();
         auto texWidth = (float)(browser->getCurrentWidth());
@@ -78,8 +71,18 @@ void loadInput(const std::string& filename){
         glUniform1f(flipLoc, (flip)?-1.0f:1.0f);
     });
 
-    quad->setPostDraw([=](){
-       browser->releaseTexture();
+    quadNode->setPostDraw([=](){
+        browser->releaseTexture();
     });
 
+    SceneNode* deAnaQuadNode = new SceneNode(DEANA_QUAD, quad, rm->getShader(QUAD_SHADER));
+    quadNode->addChild(deAnaQuadNode);
+    deAnaQuadNode->setProcessingLevel(SPLIT_LEVEL);
+    deAnaQuadNode->setPreDraw([=](){
+        auto texWidth = (float)(browser->getCurrentWidth());
+        auto texHeight = (float)(browser->getCurrentHeight());
+        glUniform1f(widthLoc, texWidth);
+        glUniform1f(heightLoc, texHeight);
+    });
 }
+

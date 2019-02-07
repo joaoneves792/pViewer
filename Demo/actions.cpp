@@ -9,6 +9,7 @@
 #include "constants.h"
 #include "SceneGraph/SceneNode.h"
 #include "Browser.h"
+#include "pipeline.h"
 
 #include <SDL.h>
 
@@ -16,6 +17,8 @@
 
 extern bool running;
 extern SDL_Window* WindowHandle;
+
+extern void (*pipeline)();
 
 void reshape(int w, int h);
 
@@ -83,5 +86,12 @@ void setupActions() {
     im->addKeyActionOnce('x', [=](){
        static VideoPlayer* vp = VideoPlayer::getInstance();
        vp->togglePause();
+    });
+
+    im->addKeyActionOnce('a', [&](){
+       if(pipeline == &executeVRPipeline)
+           pipeline = &executeDeAnaPipeline;
+       else if(pipeline == &executeDeAnaPipeline)
+           pipeline = &executeVRPipeline;
     });
 }

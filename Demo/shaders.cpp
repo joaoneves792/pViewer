@@ -43,4 +43,13 @@ void loadShaders(){
     fxaaShader->link();
     MVPLocation = fxaaShader->getUniformLocation("MVP");
     fxaaShader->setMVPFunction(UPLOAD_MVP);
+
+    auto deAnaShader = ResourceManager::Factory::createShader(DEANA_SHADER, "res/shaders/quadv.glsl", "res/shaders/deAnaf.glsl");
+    deAnaShader->setAttribLocation("inPositon", VERTICES__ATTR);
+    deAnaShader->setFragOutputLocation("color", 0);
+    deAnaShader->link();
+    GLint textureLoc = deAnaShader->getUniformLocation("frame");
+    deAnaShader->use();
+    glUniform1i(textureLoc, TEXTURE_SLOT);
+    deAnaShader->setMVPFunction(UPLOAD_MVP);
 }

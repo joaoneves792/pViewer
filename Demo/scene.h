@@ -9,6 +9,5 @@
 #include "CGJengine.h"
 
 void setupScene();
-void loadInput(const std::string& filename);
 
 #endif //CGJDEMO_SCENE_H

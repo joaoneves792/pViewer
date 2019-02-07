@@ -10,6 +10,7 @@
 void setupPipeline();
 void executePipeline();
 void executeVRPipeline();
+void executeDeAnaPipeline();
 
 
 #endif //CGJDEMO_PIPELINE_H
